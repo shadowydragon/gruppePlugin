@@ -1,9 +1,10 @@
 package de.gruppe.plugin;
 
-import de.gruppe.plugin.commands.*;
-import de.gruppe.plugin.handlers.ConjoinedHandlers;
-import de.gruppe.plugin.handlers.HealthAndHungerSyncHandlers;
-import de.gruppe.plugin.handlers.InventorySyncHandlers;
+import de.gruppe.plugin.commands.SetName;
+import de.gruppe.plugin.conjoin.commands.*;
+import de.gruppe.plugin.conjoin.handlers.ConjoinedHandlers;
+import de.gruppe.plugin.conjoin.handlers.HealthAndHungerSyncHandlers;
+import de.gruppe.plugin.conjoin.handlers.InventorySyncHandlers;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,12 +39,9 @@ public final class Main extends JavaPlugin {
     }
 
     private void registerCommands() {
-        getCommand("pattack").setExecutor(new AttackCommand());
-        getCommand("pbreak").setExecutor(new BreakCommand());
-        getCommand("pinventory").setExecutor(new InventoryCommand());
-        getCommand("pmovement").setExecutor(new MovementCommand());
-        getCommand("pconjoin").setExecutor(new ConjoinCommand());
-        getCommand("ptest").setExecutor(new TestCommand());
+        getCommand("conjoin").setExecutor(new ConjoinCommand());
+        getCommand("setName").setExecutor(new SetName());
+
     }
 
     private void registerHandlers() {

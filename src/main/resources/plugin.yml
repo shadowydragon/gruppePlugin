@@ -2,15 +2,31 @@ name: gruppe
 version: '${project.version}'
 main: de.gruppe.plugin.Main
 commands:
-  pattack:
+  conjoin:
     description: Assigns a player to control attack.
-  pbreak:
-    description: Assigns a player to control break.
-  pinventory:
-    description: Assigns a player to control inventory.
-  pmovement:
-    description: Assigns a player to control movement.
-  pconjoin:
-    description: Begins the conjoined minecraft experience.
-  ptest:
-    description: test
+    usage: /<command>
+
+  conjoin start:
+    description: Startet die conjoin
+    usage: /<command>
+
+  conjoin attack:
+    description: set player to attack controler
+    usage: /<command> <player>
+
+  conjoin break:
+    description: set player to break controler
+    usage: /<command> <player>
+
+  conjoin inventory:
+    description: set player to inventory controler
+    usage: /<command> <player>
+
+  conjoin movement:
+    description: set player to attack controler
+    usage: /<command> <player>
+
+  setName:
+    description: changes the name from a player
+
+
