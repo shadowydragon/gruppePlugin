@@ -1,4 +1,4 @@
-//TODO: Furnace update bei insert
+//TODO: Furnace update bei insert (Solution idea change update methods and pickup options (only inventory can pickup)
 //TODO: Player get damage though mobs (Erledigt?) (to much damage!)
 //TODO: On death dont drop inventory
 //TODO: On death respawn

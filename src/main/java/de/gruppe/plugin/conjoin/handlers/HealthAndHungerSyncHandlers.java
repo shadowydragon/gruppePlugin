@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 
@@ -110,6 +111,43 @@ public class HealthAndHungerSyncHandlers implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event)
+    {
+        Player attackController = Bukkit.getPlayer(Main.attackController);
+        Player breakController = Bukkit.getPlayer(Main.breakController);
+        Player inventoryController = Bukkit.getPlayer(Main.inventoryController);
+        Player movementController = Bukkit.getPlayer(Main.movementController);
+
+
+
+
+
+
+        if (!attackController.isDead())
+        {
+            attackController.getInventory().clear();
+            attackController.setHealth(0);
+        }
+        if (!breakController.isDead())
+        {
+            breakController.getInventory().clear();
+            breakController.setHealth(0);
+        }
+        if (!inventoryController.isDead())
+        {
+            inventoryController.setHealth(0);
+        }
+        if (!movementController.isDead())
+        {
+            movementController.getInventory().clear();
+            movementController.setHealth(0);
+        }
+
+    }
+
+
+
 
     @EventHandler
     public void handle(EntityRegainHealthEvent event) {
@@ -190,7 +228,7 @@ public class HealthAndHungerSyncHandlers implements Listener {
 
     @EventHandler
     public void handle(FoodLevelChangeEvent event) {
-        if(Main.isConjoined == true) {
+        if(Main.isConjoined) {
             if(event.getEntityType() == EntityType.PLAYER) {
                 UUID playerWhoAte = event.getEntity().getUniqueId();
                 if(playerWhoAte.equals(Main.breakController) && event.getFoodLevel() > ((Player)event.getEntity()).getFoodLevel())

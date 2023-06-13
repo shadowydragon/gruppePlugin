@@ -13,47 +13,65 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
-public class InventorySyncHandlers implements Listener {
-
+public class InventorySyncHandlers implements Listener
+{
     @EventHandler
-    public void handle(InventoryClickEvent event) {
-        if(Main.isConjoined == true) {
+    public void handle(InventoryClickEvent event)
+    {
+        if(Main.isConjoined)
+        {
             HumanEntity entity = event.getWhoClicked();
-            if(entity != null && entity instanceof Player) {
+            if(entity instanceof Player)
+            {
                 UUID playerWhoClicked = entity.getUniqueId();
-                if(event.getInventory().getType() == InventoryType.CRAFTING) {
                     if(playerWhoClicked.equals(Main.inventoryController))
                     {
                         inventoryControllerInventoryChange();
+
+                       if (event.getView().getType() == InventoryType.FURNACE)
+                        {
+                            Player player = (Player) event.getWhoClicked();
+                            if (player.getItemOnCursor() != null)
+                            {
+                                /*Bukkit.getPlayer(Main.attackController).getInventory().addItem(player.getItemOnCursor());
+                                Bukkit.getPlayer(Main.breakController).getInventory().addItem(player.getItemOnCursor());
+                                Bukkit.getPlayer(Main.movementController).getInventory().addItem(player.getItemOnCursor());*/
+                                inventoryControllerInventoryChange();
+                            }else
+                            {
+                                inventoryControllerInventoryChange();
+                            }
+                        }
+
                     }else
                     {
                         event.setCancelled(true);
                     }
-                }
-                else {
-                    if(!playerWhoClicked.equals(Main.inventoryController))
-                        event.setCancelled(true);
-                }
+
+
             }
+
         }
     }
 
     @EventHandler
     public void handle(CraftItemEvent event)
     {
-        if(Main.isConjoined == true) {
-
-
+        if(Main.isConjoined)
+        {
             UUID player = event.getWhoClicked().getUniqueId();
             if(player.equals(Main.inventoryController))
             {
                 inventoryControllerInventoryChange();
             }
-            else {
+            else
+            {
                 event.setCancelled(true);
             }
         }
@@ -62,16 +80,11 @@ public class InventorySyncHandlers implements Listener {
     @EventHandler
     public void handle(InventoryEvent event)
     {
-        if(Main.isConjoined == true) {
-
-
+        if(Main.isConjoined) {
             UUID player = event.getViewers().get(0).getUniqueId();
             if(player.equals(Main.inventoryController))
             {
                 inventoryControllerInventoryChange();
-            }
-            else {
-
             }
         }
     }
@@ -80,13 +93,14 @@ public class InventorySyncHandlers implements Listener {
 
     @EventHandler
     public void handle(PlayerSwapHandItemsEvent event){
-        if(Main.isConjoined == true) {
+        if(Main.isConjoined) {
             UUID player = event.getPlayer().getUniqueId();
             if(player.equals(Main.inventoryController))
             {
                 inventoryControllerInventoryChange();
             }
-            else {
+            else
+            {
                 event.setCancelled(true);
             }
         }
@@ -96,13 +110,14 @@ public class InventorySyncHandlers implements Listener {
 
     @EventHandler
     public void handle(InventoryDragEvent event) {
-        if(Main.isConjoined == true) {
+        if(Main.isConjoined) {
             HumanEntity entity = event.getWhoClicked();
             if(entity != null && entity instanceof Player) {
                 UUID playerWhoClicked = entity.getUniqueId();
                 if(event.getInventory().getType() == InventoryType.CRAFTING) {
-                    if(playerWhoClicked.equals(Main.inventoryController))
+                    if(playerWhoClicked.equals(Main.inventoryController)) {
                         inventoryControllerInventoryChange();
+                    }
                     else
                     {
                         event.setCancelled(true);
@@ -119,23 +134,12 @@ public class InventorySyncHandlers implements Listener {
 
     @EventHandler
     public void handle(EntityPickupItemEvent event) {
-        if(Main.isConjoined == true) {
-            if(event.getEntity() != null && event.getEntityType() == EntityType.PLAYER) {
-                UUID playerWhoClicked = event.getEntity().getUniqueId();
-                if(playerWhoClicked.equals(Main.attackController)) {
-                    attackControllerInventoryChange();
-                }
-                else if(playerWhoClicked.equals(Main.breakController))
-                {
-                    breakControllerInventoryChange();
-                }
-                else if(playerWhoClicked.equals(Main.inventoryController))
+        if(Main.isConjoined) {
+            if(event.getEntity() instanceof Player) {
+                UUID player = event.getEntity().getUniqueId();
+                if(player.equals(Main.inventoryController))
                 {
                     inventoryControllerInventoryChange();
-                }
-                else if(playerWhoClicked.equals(Main.movementController))
-                {
-                    movementControllerInventoryChange();
                 }
             }
         }
@@ -159,7 +163,7 @@ public class InventorySyncHandlers implements Listener {
 
     @EventHandler
     public void handle(PlayerItemConsumeEvent event) {
-        if(Main.isConjoined == true) {
+        if(Main.isConjoined) {
             UUID player = event.getPlayer().getUniqueId();
             if(player.equals(Main.breakController))
             {
@@ -177,8 +181,12 @@ public class InventorySyncHandlers implements Listener {
     public void handle(BlockPlaceEvent event) {
         if(Main.isConjoined == true) {
             UUID player = event.getPlayer().getUniqueId();
-            if(player.equals(Main.movementController))
-                movementControllerInventoryChange();
+            if(player.equals(Main.movementController)) {
+                Bukkit.getPlayer(Main.inventoryController).getInventory().getItem(
+                        Bukkit.getPlayer(Main.movementController).getInventory().getHeldItemSlot()).setAmount(
+                                Bukkit.getPlayer(Main.movementController).getInventory().getItemInMainHand().getAmount());
+                inventoryControllerInventoryChange();
+            }
             else
             {
                 event.setCancelled(true);
@@ -201,43 +209,48 @@ public class InventorySyncHandlers implements Listener {
     public void handle(InventoryOpenEvent event)
     {
 
-        if(Main.isConjoined == true) {
-
-
+        if(Main.isConjoined)
+        {
             UUID player = event.getPlayer().getUniqueId();
             if(player.equals(Main.inventoryController))
                 inventoryControllerInventoryChange();
-
-            if (player.equals(Main.inventoryController)) {
-                inventoryControllerInventoryChange();
-            } else if (player.equals(Main.attackController)) {
-                attackControllerInventoryChange();
-            } else if (player.equals(Main.breakController)) {
-                breakControllerInventoryChange();
-            } else if (player.equals(Main.movementController)) {
-                movementControllerInventoryChange();
-            }
 
         }
     }
 
 
     @EventHandler
-    public void handle(FurnaceExtractEvent event) throws InterruptedException {
+    public void handle(FurnaceExtractEvent event) {
 
-        if(Main.isConjoined == true) {
-
-
+        if(Main.isConjoined) {
             UUID player = event.getPlayer().getUniqueId();
             if(player.equals(Main.inventoryController)) {
-                Thread.sleep(5000);
                 inventoryControllerInventoryChange();
-                System.out.println("lalala");
+                //Bukkit.getPlayer(Main.attackController).getInventory().addItem(event.getPlayer().getItemInUse());
+                //event.getPlayer().getItemOnCursor()
             }
-
         }
     }
 
+    @EventHandler
+    public void itemDamage(PlayerItemDamageEvent event)
+    {
+        if (Main.isConjoined)
+        {
+            if (event.getPlayer().equals(Main.attackController))
+            {
+                Player invPlayer = Bukkit.getPlayer(Main.inventoryController);
+                if (invPlayer.getItemInUse().equals(event.getItem()))
+                {
+                    invPlayer.getItemInUse().setDurability((short) (event.getItem().getDurability() - (short)event.getDamage()));
+                    invPlayer.updateInventory();
+
+                    inventoryControllerInventoryChange();
+
+                }
+            }
+        }
+    }
 
 
     @EventHandler

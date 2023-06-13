@@ -5,6 +5,8 @@ import de.gruppe.plugin.conjoin.commands.*;
 import de.gruppe.plugin.conjoin.handlers.ConjoinedHandlers;
 import de.gruppe.plugin.conjoin.handlers.HealthAndHungerSyncHandlers;
 import de.gruppe.plugin.conjoin.handlers.InventorySyncHandlers;
+import de.gruppe.plugin.manhunt.commands.ManhuntCommand;
+import de.gruppe.plugin.manhunt.handlers.CompassHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,6 +43,7 @@ public final class Main extends JavaPlugin {
     private void registerCommands() {
         getCommand("conjoin").setExecutor(new ConjoinCommand());
         getCommand("setName").setExecutor(new SetName());
+        getCommand("manhunt").setExecutor(new ManhuntCommand());
 
     }
 
@@ -49,6 +52,7 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new ConjoinedHandlers(), this);
         pluginManager.registerEvents(new InventorySyncHandlers(), this);
         pluginManager.registerEvents(new HealthAndHungerSyncHandlers(), this);
+        pluginManager.registerEvents(new CompassHandler(), this);
     }
 
     @Override

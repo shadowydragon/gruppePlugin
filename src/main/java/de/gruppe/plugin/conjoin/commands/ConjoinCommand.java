@@ -169,6 +169,11 @@ public class ConjoinCommand implements CommandExecutor {
                 attackControler.hidePlayer(plugin, inventoryControler);
                 attackControler.hidePlayer(plugin, movementControler);
                 attackControler.setCollidable(false);
+                attackControler.setCanPickupItems(false);
+                attackControler.setInvulnerable(true);
+                attackControler.setInvisible(true);
+
+
 
 
                 breakControler.hidePlayer(plugin, attackControler);
@@ -176,18 +181,27 @@ public class ConjoinCommand implements CommandExecutor {
                 breakControler.hidePlayer(plugin, inventoryControler);
                 breakControler.hidePlayer(plugin, movementControler);
                 breakControler.setCollidable(false);
+                breakControler.setCanPickupItems(false);
+                breakControler.setInvisible(true);
+                breakControler.setInvulnerable(true);
 
                 inventoryControler.hidePlayer(plugin, attackControler);
                 inventoryControler.hidePlayer(plugin, breakControler);
                 inventoryControler.hidePlayer(plugin, inventoryControler);
                 inventoryControler.hidePlayer(plugin, movementControler);
-                inventoryControler.setCollidable(false);
+
+                inventoryControler.setInvulnerable(true);
+                inventoryControler.setInvisible(true);
+
 
                 movementControler.hidePlayer(plugin, attackControler);
                 movementControler.hidePlayer(plugin, breakControler);
                 movementControler.hidePlayer(plugin, inventoryControler);
-                movementControler.hidePlayer(plugin, movementControler);
+                //movementControler.hidePlayer(plugin, movementControler);
                 movementControler.setCollidable(true);
+                movementControler.setCanPickupItems(false);
+
+                inventoryControler.setCollidable(false);
             }catch (Exception e)
             {
                 System.out.println(e);
