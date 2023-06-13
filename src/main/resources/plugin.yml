@@ -1,0 +1,16 @@
+name: gruppe
+version: '${project.version}'
+main: de.gruppe.plugin.Main
+commands:
+  pattack:
+    description: Assigns a player to control attack.
+  pbreak:
+    description: Assigns a player to control break.
+  pinventory:
+    description: Assigns a player to control inventory.
+  pmovement:
+    description: Assigns a player to control movement.
+  pconjoin:
+    description: Begins the conjoined minecraft experience.
+  ptest:
+    description: test

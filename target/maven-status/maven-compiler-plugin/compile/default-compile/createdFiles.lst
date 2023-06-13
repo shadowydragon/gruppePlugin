@@ -1,0 +1,15 @@
+de\gruppe\plugin\commands\InventoryCommand.class
+de\gruppe\plugin\handlers\InventorySyncHandlers$1.class
+de\gruppe\plugin\handlers\InventorySyncHandlers.class
+de\gruppe\plugin\handlers\InventorySyncHandlers$2.class
+de\gruppe\plugin\handlers\HealthAndHungerSyncHandlers$1.class
+de\gruppe\plugin\handlers\HealthAndHungerSyncHandlers.class
+de\gruppe\plugin\commands\MovementCommand.class
+de\gruppe\plugin\handlers\ConjoinedHandlers.class
+de\gruppe\plugin\Main.class
+de\gruppe\plugin\commands\BreakCommand.class
+de\gruppe\plugin\handlers\InventorySyncHandlers$4.class
+de\gruppe\plugin\commands\AttackCommand.class
+de\gruppe\plugin\handlers\InventorySyncHandlers$3.class
+de\gruppe\plugin\commands\ConjoinCommand.class
+de\gruppe\plugin\commands\TestCommand.class
