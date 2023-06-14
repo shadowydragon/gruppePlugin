@@ -1,6 +1,7 @@
 package de.gruppe.plugin.manhunt.handlers;
 
 import de.gruppe.plugin.Main;
+import de.gruppe.plugin.manhunt.ManhuntPlayerRoleUtil;
 import de.gruppe.plugin.manhunt.menu.ManhuntFollowSelectMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,13 +26,15 @@ public class CompassHandler implements Listener
     {
         event.getAction();
 
-        if ((event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) && event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Targeter"))
-        {
 
-            //TODO: Implement to get a window to chose who will targeted
-            ManhuntFollowSelectMenu manhuntFollowSelectMenu = new ManhuntFollowSelectMenu(Main.getPlayerMenuUtility((Player) event.getPlayer()));
-            manhuntFollowSelectMenu.open();
-        }
+            if ((event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) && event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Targeter"))
+            {
+                //TODO: Implement to get a window to chose who will targeted
+                ManhuntFollowSelectMenu manhuntFollowSelectMenu = new ManhuntFollowSelectMenu(Main.getPlayerMenuUtility((Player) event.getPlayer()));
+                manhuntFollowSelectMenu.open();
+            }
+
+
 
         try {
             if ((event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) && event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Targeter"))

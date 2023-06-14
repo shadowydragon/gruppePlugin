@@ -4,27 +4,21 @@ main: de.gruppe.plugin.Main
 commands:
   conjoin:
     description: Assigns a player to control attack.
-    usage: /<command>
 
   conjoin start:
     description: Startet die conjoin
-    usage: /<command>
 
   conjoin attack:
-    description: set player to attack controler
-    usage: /<command> <player>
+    description: set player to attack controller
 
   conjoin break:
-    description: set player to break controler
-    usage: /<command> <player>
+    description: set player to break controller
 
   conjoin inventory:
-    description: set player to inventory controler
-    usage: /<command> <player>
+    description: set player to inventory controller
 
   conjoin movement:
-    description: set player to attack controler
-    usage: /<command> <player>
+    description: set player to attack controller
 
   setName:
     description: changes the name from a player
@@ -40,5 +34,14 @@ commands:
 
   manhunt menu:
     description: open the menu
+
+  manhunt setRole:
+    description: set role
+  manhunt setRole none:
+    description: set role
+  manhunt setRole hunter:
+    description: set role
+  manhunt setRole speedrunner:
+    description: set role
 
 

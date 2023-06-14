@@ -1,5 +1,6 @@
 package de.gruppe.plugin.manhunt.menu;
 
+import de.gruppe.plugin.manhunt.ManhuntPlayerRoleUtil;
 import de.gruppe.plugin.manhunt.ManhuntRoles;
 import de.gruppe.plugin.manhunt.handlers.CompassHandler;
 import de.gruppe.plugin.menusystem.AbstractPaginatedMenu;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.eclipse.sisu.Nullable;
 
 import java.util.*;
 
@@ -78,12 +80,18 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
 
         addMenuBorder();
 
+        System.out.println("xx");
+
+
+
         ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
 
         if(players.isEmpty() || players == null)
         {
             return;
         }
+
+
 
         for (int i = 0; i < getMaxItemOnPage(); i++) {
 
@@ -119,7 +127,13 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
                 playerHead.setItemMeta(playerHeadMeta);
 
                 Inventory inventory = getInventory();
+
+
                 inventory.addItem(playerHead);
+
+
+
+
 
             }
 

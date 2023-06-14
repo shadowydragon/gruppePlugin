@@ -1,6 +1,6 @@
 package de.gruppe.plugin.manhunt.handlers;
 
-import de.gruppe.plugin.manhunt.ManhuntPlayerRoleList;
+import de.gruppe.plugin.manhunt.ManhuntPlayerRoleUtil;
 import de.gruppe.plugin.manhunt.ManhuntRoles;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ public class ManhuntPlayerHandler implements Listener {
 
         if (joinedPlayer.getPersistentDataContainer().get(new NamespacedKey(joinedPlayer.getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING) == null)
         {
-            ManhuntPlayerRoleList.playerAddRole(joinedPlayer.getUniqueId(), ManhuntRoles.NONE);
+            ManhuntPlayerRoleUtil.playerAddRole(joinedPlayer.getUniqueId(), ManhuntRoles.NONE);
         }
     }
 }

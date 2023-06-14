@@ -4,6 +4,7 @@ import de.gruppe.plugin.Main;
 import de.gruppe.plugin.manhunt.items.TargetCompass;
 import de.gruppe.plugin.menusystem.AbstractMenu;
 import de.gruppe.plugin.menusystem.PlayerMenuUtility;
+import jline.internal.Nullable;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

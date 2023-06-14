@@ -1,0 +1,5 @@
+#If true then data for Manhunt will be loaded
+Manhunt: true
+
+#If true then the data for Conjoin will get Load
+Conjoin: false

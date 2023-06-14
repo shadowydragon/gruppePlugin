@@ -19,6 +19,8 @@ public abstract class AbstractPaginatedMenu extends AbstractMenu{
 
     public void addMenuBorder()
     {
+        System.out.println("dasda");
+
         ItemStack goLeft = new ItemStack(Material.ARROW, 1);
         ItemMeta goLeftMeta = goLeft.getItemMeta();
         goLeftMeta.setDisplayName(ChatColor.GREEN + "Previous Page");
@@ -34,11 +36,18 @@ public abstract class AbstractPaginatedMenu extends AbstractMenu{
         closeMeta.setDisplayName(ChatColor.RED + "Close");
         close.setItemMeta(closeMeta);
 
+        System.out.println("dasda");
+
         Inventory inventory = getInventory();
+
+        System.out.println("fffff");
 
         inventory.setItem(0, goLeft);
         inventory.setItem(4, close);
         inventory.setItem(8, goRight);
+
+
+        System.out.println("dasda");
     }
 
     public int getPage() {

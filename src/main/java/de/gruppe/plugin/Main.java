@@ -40,30 +40,49 @@ public final class Main extends JavaPlugin {
         plugin = this;
         System.out.println("Ich habe gestartet");
 
+        getConfig().options().copyDefaults();
+        saveDefaultConfig();
+
         registerCommands();
         registerHandlers();
 
     }
 
     private void registerCommands() {
-        getCommand("conjoin").setExecutor(new ConjoinCommand());
+        if (getConfig().getBoolean("Conjoin"))
+        {
+            getCommand("conjoin").setExecutor(new ConjoinCommand());
+        }
 
         getCommand("setName").setExecutor(new SetName());
 
-        getCommand("manhunt").setExecutor(new ManhuntCommand());
+        if (getConfig().getBoolean("Manhunt"))
+        {
+            getCommand("manhunt").setExecutor(new ManhuntCommand());
+        }
+
 
 
     }
 
     private void registerHandlers() {
         PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(new ConjoinedHandlers(), this);
-        pluginManager.registerEvents(new InventorySyncHandlers(), this);
-        pluginManager.registerEvents(new HealthAndHungerSyncHandlers(), this);
 
-        pluginManager.registerEvents(new MenuListener(), this);
-        pluginManager.registerEvents(new CompassHandler(), this);
-        pluginManager.registerEvents(new ManhuntPlayerHandler(), this);
+        if (getConfig().getBoolean("Conjoin"))
+        {
+            pluginManager.registerEvents(new ConjoinedHandlers(), this);
+            pluginManager.registerEvents(new InventorySyncHandlers(), this);
+            pluginManager.registerEvents(new HealthAndHungerSyncHandlers(), this);
+        }
+
+
+        if (getConfig().getBoolean("Manhunt"))
+        {
+            pluginManager.registerEvents(new MenuListener(), this);
+            pluginManager.registerEvents(new CompassHandler(), this);
+            pluginManager.registerEvents(new ManhuntPlayerHandler(), this);
+        }
+
 
     }
 
