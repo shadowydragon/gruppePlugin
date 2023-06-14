@@ -34,7 +34,11 @@ commands:
 
   manhunt setTarget:
     description: set target for compass
+
   manhunt getCompass:
     description: get compass
+
+  manhunt menu:
+    description: open the menu
 
 

@@ -1,7 +1,9 @@
 package de.gruppe.plugin.manhunt.commands;
 
+import de.gruppe.plugin.Main;
 import de.gruppe.plugin.manhunt.handlers.CompassHandler;
 import de.gruppe.plugin.manhunt.items.TargetCompass;
+import de.gruppe.plugin.manhunt.menusystem.menu.ManhuntMainMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,29 +17,26 @@ public class ManhuntCommand implements CommandExecutor {
 
         if(command.getName().equals("manhunt"))
         {
-            System.out.println("1");
-            if (args.length > 0)
+            if (sender instanceof Player)
             {
-                System.out.println("2");
-                if (args[0].equals("getcompass"))
-                {
-                    System.out.println("3");
-                    if (sender instanceof Player)
-                    {
-                        System.out.println("4");
-                        Player player = (Player) sender;
+                Player player = (Player) sender;
 
-                        if (player.getInventory().getItem(9) == null)
+                if (args.length > 0)
+                {
+                    if (args[0].equalsIgnoreCase("getcompass"))
+                    {
+
+
+
+                        if (player.getInventory().getItem(8) == null)
                         {
-                            System.out.println("5");
-                            player.getInventory().setItem(9, TargetCompass.createCreate());
+                            player.getInventory().setItem(8, TargetCompass.createCreate());
                             System.out.println("Klappt");
                             return true;
                         }
 
                         if (player.getInventory().firstEmpty() == -1)
                         {
-                            System.out.println("6");
                             player.sendMessage("Du hast keinen freien slot");
                             return true;
                         }else
@@ -45,31 +44,36 @@ public class ManhuntCommand implements CommandExecutor {
                             player.getInventory().addItem(TargetCompass.createCreate());
                         }
 
-                    }
-                } else if (args[0].equals("settarget"))
-                {
-                    System.out.println("7");
-                    if (args.length > 1)
+
+                    } else if (args[0].equals("settarget"))
                     {
-                        System.out.println("8");
-                        try {
-                            Player targetPlayer = Bukkit.getPlayer(args[1]);
-                            Player sendPlayer = (Player) sender;
-
-                            sendPlayer.setCompassTarget(targetPlayer.getLocation());
-                            sendPlayer.sendMessage("Target was set to " + targetPlayer.getName());
-                            CompassHandler.addUserTarget(sendPlayer.getUniqueId(), targetPlayer.getUniqueId());
-                            System.out.println("9");
-
-
-                        }
-                        catch (Exception e)
+                        if (args.length > 1)
                         {
-                            sender.sendMessage("Dieser spieler exestiert nicht");
+                            try {
+                                Player targetPlayer = Bukkit.getPlayer(args[1]);
+                                Player sendPlayer = (Player) sender;
+
+                                sendPlayer.setCompassTarget(targetPlayer.getLocation());
+                                sendPlayer.sendMessage("Target was set to " + targetPlayer.getName());
+                                CompassHandler.addUserTarget(sendPlayer.getUniqueId(), targetPlayer.getUniqueId());
+
+
+                            }
+                            catch (Exception e)
+                            {
+                                sender.sendMessage("Dieser spieler exestiert nicht");
+                            }
                         }
+                    }
+                    else if (args[0].equalsIgnoreCase("menu"))
+                    {
+                        ManhuntMainMenu manhuntMainMenu = new ManhuntMainMenu(Main.getPlayerMenuUtility(player));
+
+                        manhuntMainMenu.open();
                     }
                 }
             }
+
         }
 
         return false;
