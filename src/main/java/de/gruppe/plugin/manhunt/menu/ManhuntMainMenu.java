@@ -4,7 +4,6 @@ import de.gruppe.plugin.Main;
 import de.gruppe.plugin.manhunt.items.TargetCompass;
 import de.gruppe.plugin.menusystem.AbstractMenu;
 import de.gruppe.plugin.menusystem.PlayerMenuUtility;
-import jline.internal.Nullable;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
 
 public class ManhuntMainMenu extends AbstractMenu {
     public ManhuntMainMenu(PlayerMenuUtility playerMenuUtility) {
@@ -59,7 +59,7 @@ public class ManhuntMainMenu extends AbstractMenu {
         }else if (displayName.equalsIgnoreCase("Select follow target"))
         {
             ManhuntFollowSelectMenu manhuntFollowSelectMenu = new ManhuntFollowSelectMenu(Main.getPlayerMenuUtility((Player) event.getWhoClicked()));
-            manhuntFollowSelectMenu.open();
+            manhuntFollowSelectMenu.open(((Player) event.getWhoClicked()).getPlayer());
         }
 
     }
@@ -106,5 +106,44 @@ public class ManhuntMainMenu extends AbstractMenu {
 
 
 
+    }
+
+    @Override
+    public void setMenuItems(Player player) {
+
+        ItemStack getCompass = new ItemStack(Material.COMPASS, 1);
+        ItemMeta comapassMeta = getCompass.getItemMeta();
+        comapassMeta.setUnbreakable(true);
+        comapassMeta.setDisplayName(ChatColor.GREEN + "Locate Player");
+        List<String> compassLore = new LinkedList<>();
+        compassLore.add("Erhalte einen Compass");
+        comapassMeta.setLore(compassLore);
+        getCompass.setItemMeta(comapassMeta);
+
+        ItemStack close = new ItemStack(Material.BARRIER, 1);
+        ItemMeta closeMeta = close.getItemMeta();
+        closeMeta.setDisplayName(ChatColor.DARK_AQUA + "Close");
+        closeMeta.setLore(new ArrayList<String>(Collections.singleton("Close the Menu")));
+        close.setItemMeta(closeMeta);
+
+
+
+
+        ItemStack playerTarget = new ItemStack(Material.DIAMOND_SWORD, 1);
+        ItemMeta playerTargetMeta = playerTarget.getItemMeta();
+        playerTargetMeta.setDisplayName("Select follow target");
+        playerTarget.setItemMeta(playerTargetMeta);
+
+
+        ItemStack selectRole = new ItemStack(Material.EMERALD, 1);
+        ItemMeta selectRoleMeta = selectRole.getItemMeta();
+        selectRoleMeta.setDisplayName("Select Role");
+        selectRole.setItemMeta(selectRoleMeta);
+
+
+        Inventory inventory = this.getInventory();
+        inventory.setItem(8, close);
+        inventory.setItem(0, getCompass);
+        inventory.setItem(1, playerTarget);
     }
 }

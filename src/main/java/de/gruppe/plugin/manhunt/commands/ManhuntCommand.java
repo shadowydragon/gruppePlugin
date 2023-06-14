@@ -71,7 +71,7 @@ public class ManhuntCommand implements CommandExecutor {
                     {
                         ManhuntMainMenu manhuntMainMenu = new ManhuntMainMenu(Main.getPlayerMenuUtility(player));
 
-                        manhuntMainMenu.open();
+                        manhuntMainMenu.open(player);
                     }
                     else if (args[0].equalsIgnoreCase("setRole"))
                     {

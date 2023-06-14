@@ -25,11 +25,22 @@ public abstract class AbstractMenu implements InventoryHolder {
 
     public abstract void setMenuItems();
 
+    public abstract void setMenuItems(Player player);
+
     public void open()
     {
         inventory= Bukkit.createInventory(this, getSlots(), getMenuName());
 
         this.setMenuItems();
+
+        playerMenuUtility.getOwner().openInventory(inventory);
+    }
+
+    public void open(Player player)
+    {
+        inventory= Bukkit.createInventory(this, getSlots(), getMenuName());
+
+        this.setMenuItems(player);
 
         playerMenuUtility.getOwner().openInventory(inventory);
     }

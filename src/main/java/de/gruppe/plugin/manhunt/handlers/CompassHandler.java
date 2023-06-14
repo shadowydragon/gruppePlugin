@@ -26,12 +26,11 @@ public class CompassHandler implements Listener
     {
         event.getAction();
 
-
             if ((event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) && event.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Targeter"))
             {
                 //TODO: Implement to get a window to chose who will targeted
                 ManhuntFollowSelectMenu manhuntFollowSelectMenu = new ManhuntFollowSelectMenu(Main.getPlayerMenuUtility((Player) event.getPlayer()));
-                manhuntFollowSelectMenu.open();
+                manhuntFollowSelectMenu.open(event.getPlayer());
             }
 
 
