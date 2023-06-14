@@ -1,9 +1,9 @@
-package de.gruppe.plugin.manhunt.menusystem.menu;
+package de.gruppe.plugin.manhunt.menu;
 
 import de.gruppe.plugin.Main;
 import de.gruppe.plugin.manhunt.items.TargetCompass;
-import de.gruppe.plugin.manhunt.menusystem.AbstractMenu;
-import de.gruppe.plugin.manhunt.menusystem.PlayerMenuUtility;
+import de.gruppe.plugin.menusystem.AbstractMenu;
+import de.gruppe.plugin.menusystem.PlayerMenuUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -88,6 +88,12 @@ public class ManhuntMainMenu extends AbstractMenu {
         ItemMeta playerTargetMeta = playerTarget.getItemMeta();
         playerTargetMeta.setDisplayName("Select follow target");
         playerTarget.setItemMeta(playerTargetMeta);
+
+
+        ItemStack selectRole = new ItemStack(Material.EMERALD, 1);
+        ItemMeta selectRoleMeta = selectRole.getItemMeta();
+        selectRoleMeta.setDisplayName("Select Role");
+        selectRole.setItemMeta(selectRoleMeta);
 
 
         Inventory inventory = this.getInventory();

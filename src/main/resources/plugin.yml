@@ -40,5 +40,7 @@ commands:
 
   manhunt menu:
     description: open the menu
+  manhunt setRole:
+    description: set role
 
 

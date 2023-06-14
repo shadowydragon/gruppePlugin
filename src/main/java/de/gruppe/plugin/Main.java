@@ -7,12 +7,16 @@ import de.gruppe.plugin.conjoin.handlers.HealthAndHungerSyncHandlers;
 import de.gruppe.plugin.conjoin.handlers.InventorySyncHandlers;
 import de.gruppe.plugin.manhunt.commands.ManhuntCommand;
 import de.gruppe.plugin.manhunt.handlers.CompassHandler;
+import de.gruppe.plugin.manhunt.handlers.ManhuntPlayerHandler;
+import de.gruppe.plugin.manhunt.listener.MenuListener;
+import de.gruppe.plugin.menusystem.PlayerMenuUtility;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-
+import java.util.HashMap;
 import java.util.UUID;
 
 
@@ -38,12 +42,16 @@ public final class Main extends JavaPlugin {
 
         registerCommands();
         registerHandlers();
+
     }
 
     private void registerCommands() {
         getCommand("conjoin").setExecutor(new ConjoinCommand());
+
         getCommand("setName").setExecutor(new SetName());
+
         getCommand("manhunt").setExecutor(new ManhuntCommand());
+
 
     }
 
@@ -52,7 +60,30 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new ConjoinedHandlers(), this);
         pluginManager.registerEvents(new InventorySyncHandlers(), this);
         pluginManager.registerEvents(new HealthAndHungerSyncHandlers(), this);
+
+        pluginManager.registerEvents(new MenuListener(), this);
         pluginManager.registerEvents(new CompassHandler(), this);
+        pluginManager.registerEvents(new ManhuntPlayerHandler(), this);
+
+    }
+
+    private static final HashMap<Player, PlayerMenuUtility> playerMenuUtilityMap = new HashMap<>(); //first is the key second the value
+
+    public static PlayerMenuUtility getPlayerMenuUtility(Player player)
+    {
+        PlayerMenuUtility playerMenuUtility;
+
+        if (playerMenuUtilityMap.containsKey(player))
+        {
+            return playerMenuUtilityMap.get(player);
+        }
+        else
+        {
+            playerMenuUtility = new PlayerMenuUtility(player);
+            playerMenuUtilityMap.put(player, playerMenuUtility);
+
+            return playerMenuUtility;
+        }
     }
 
     @Override

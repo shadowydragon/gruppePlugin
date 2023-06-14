@@ -1,6 +1,6 @@
 package de.gruppe.plugin.manhunt.listener;
 
-import de.gruppe.plugin.manhunt.menusystem.AbstractMenu;
+import de.gruppe.plugin.menusystem.AbstractMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

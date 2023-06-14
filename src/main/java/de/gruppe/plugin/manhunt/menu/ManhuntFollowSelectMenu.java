@@ -1,20 +1,21 @@
-package de.gruppe.plugin.manhunt.menusystem.menu;
+package de.gruppe.plugin.manhunt.menu;
 
+import de.gruppe.plugin.manhunt.ManhuntRoles;
 import de.gruppe.plugin.manhunt.handlers.CompassHandler;
-import de.gruppe.plugin.manhunt.menusystem.AbstractPaginatedMenu;
-import de.gruppe.plugin.manhunt.menusystem.PlayerMenuUtility;
+import de.gruppe.plugin.menusystem.AbstractPaginatedMenu;
+import de.gruppe.plugin.menusystem.PlayerMenuUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
     public ManhuntFollowSelectMenu(PlayerMenuUtility playerMenuUtility) {
@@ -97,6 +98,24 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
                 ItemStack playerHead = new ItemStack(Material.DIAMOND_SWORD, 1);
                 ItemMeta playerHeadMeta = playerHead.getItemMeta();
                 playerHeadMeta.setDisplayName(players.get(getIndex()).getName());
+
+                List<String> playerHeadLore = new LinkedList<>();
+                if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("hunter"))
+                {
+                    playerHeadLore.add("Rolle: " + ChatColor.RED + "" + ChatColor.BOLD + "HUNTER");
+                }
+                else if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("speedrunner"))
+                {
+                    playerHeadLore.add("Rolle: " + ChatColor.GREEN + "" + ChatColor.BOLD + "SPEEDRUNNER");
+                }
+                else if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("none"))
+                {
+                    playerHeadLore.add("Rolle: " + ChatColor.BLUE + "NONE");
+                }
+
+                playerHeadMeta.setLore(playerHeadLore);
+
+
                 playerHead.setItemMeta(playerHeadMeta);
 
                 Inventory inventory = getInventory();

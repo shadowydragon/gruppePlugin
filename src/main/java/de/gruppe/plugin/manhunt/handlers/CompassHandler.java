@@ -1,22 +1,17 @@
 package de.gruppe.plugin.manhunt.handlers;
 
 import de.gruppe.plugin.Main;
-import de.gruppe.plugin.manhunt.menusystem.menu.ManhuntFollowSelectMenu;
-import net.md_5.bungee.api.chat.ClickEvent;
+import de.gruppe.plugin.manhunt.menu.ManhuntFollowSelectMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventException;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.UUID;

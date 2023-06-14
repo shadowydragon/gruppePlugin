@@ -1,4 +1,4 @@
-package de.gruppe.plugin.manhunt.menusystem;
+package de.gruppe.plugin.menusystem;
 
 import org.bukkit.entity.Player;
 
