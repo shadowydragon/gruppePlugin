@@ -1,10 +1,10 @@
 package de.gruppe.plugin;
 
 import de.gruppe.plugin.commands.SetName;
-import de.gruppe.plugin.conjoin.commands.*;
-import de.gruppe.plugin.conjoin.handlers.ConjoinedHandlers;
-import de.gruppe.plugin.conjoin.handlers.HealthAndHungerSyncHandlers;
-import de.gruppe.plugin.conjoin.handlers.InventorySyncHandlers;
+import de.gruppe.plugin.cojoin.commands.*;
+import de.gruppe.plugin.cojoin.handlers.CojoinedHandlers;
+import de.gruppe.plugin.cojoin.handlers.HealthAndHungerSyncHandlers;
+import de.gruppe.plugin.cojoin.handlers.InventorySyncHandlers;
 import de.gruppe.plugin.manhunt.commands.ManhuntCommand;
 import de.gruppe.plugin.manhunt.handlers.CompassHandler;
 import de.gruppe.plugin.manhunt.handlers.ManhuntPlayerHandler;
@@ -51,7 +51,7 @@ public final class Main extends JavaPlugin {
     private void registerCommands() {
         if (getConfig().getBoolean("Conjoin"))
         {
-            getCommand("conjoin").setExecutor(new ConjoinCommand());
+            getCommand("cojoin").setExecutor(new ConjoinCommand());
         }
 
         getCommand("setName").setExecutor(new SetName());
@@ -68,9 +68,9 @@ public final class Main extends JavaPlugin {
     private void registerHandlers() {
         PluginManager pluginManager = Bukkit.getPluginManager();
 
-        if (getConfig().getBoolean("Conjoin"))
+        if (getConfig().getBoolean("Cojoin"))
         {
-            pluginManager.registerEvents(new ConjoinedHandlers(), this);
+            pluginManager.registerEvents(new CojoinedHandlers(), this);
             pluginManager.registerEvents(new InventorySyncHandlers(), this);
             pluginManager.registerEvents(new HealthAndHungerSyncHandlers(), this);
         }

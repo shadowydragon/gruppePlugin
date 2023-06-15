@@ -1,4 +1,4 @@
-package de.gruppe.plugin.conjoin.handlers;
+package de.gruppe.plugin.cojoin.handlers;
 
 import de.gruppe.plugin.Main;
 import org.bukkit.event.Listener;
@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public class ConjoinedHandlers implements Listener
+public class CojoinedHandlers implements Listener
 {
 
 

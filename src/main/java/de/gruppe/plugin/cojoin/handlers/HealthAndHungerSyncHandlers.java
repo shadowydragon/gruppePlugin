@@ -1,4 +1,4 @@
-package de.gruppe.plugin.conjoin.handlers;
+package de.gruppe.plugin.cojoin.handlers;
 
 import de.gruppe.plugin.Main;
 import org.bukkit.event.Listener;

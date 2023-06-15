@@ -158,15 +158,15 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
                 List<String> playerHeadLore = new LinkedList<>();
                 if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("hunter"))
                 {
-                    playerHeadLore.add("Rolle: " + ChatColor.RED + "" + ChatColor.BOLD + "HUNTER");
+                    playerHeadLore.add("Manhuntrolle: " + ChatColor.RED + "" + ChatColor.BOLD + "HUNTER");
                 }
                 else if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("speedrunner"))
                 {
-                    playerHeadLore.add("Rolle: " + ChatColor.GREEN + "" + ChatColor.BOLD + "SPEEDRUNNER");
+                    playerHeadLore.add("Manhuntrolle: " + ChatColor.GREEN + "" + ChatColor.BOLD + "SPEEDRUNNER");
                 }
                 else if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("none"))
                 {
-                    playerHeadLore.add("Rolle: " + ChatColor.BLUE + "NONE");
+                    playerHeadLore.add("Manhuntrolle: " + ChatColor.BLUE + "NONE");
                 }
                 playerHeadMeta.setLore(playerHeadLore);
 

@@ -1,7 +1,7 @@
-package de.gruppe.plugin.conjoin.commands;
+package de.gruppe.plugin.cojoin.commands;
 
 import de.gruppe.plugin.Main;
-import de.gruppe.plugin.conjoin.handlers.HealthAndHungerSyncHandlers;
+import de.gruppe.plugin.cojoin.handlers.HealthAndHungerSyncHandlers;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

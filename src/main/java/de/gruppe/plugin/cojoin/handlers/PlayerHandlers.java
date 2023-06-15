@@ -1,4 +1,4 @@
-package de.gruppe.plugin.conjoin.handlers;
+package de.gruppe.plugin.cojoin.handlers;
 
 import de.gruppe.plugin.Main;
 import org.bukkit.Bukkit;
@@ -6,9 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerExpChangeEvent;
-import org.bukkit.event.player.PlayerLevelChangeEvent;
-
-import java.nio.Buffer;
 
 public class PlayerHandlers implements Listener
 {

@@ -7,6 +7,7 @@ import de.gruppe.plugin.manhunt.items.TargetCompass;
 import de.gruppe.plugin.manhunt.menu.ManhuntFollowSelectMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,7 +31,7 @@ public class CompassHandler implements Listener
     {
         event.getAction();
 
-            if ((event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) && ManhuntUtil.checkCompassDisplayname(event.getPlayer().getInventory().getItemInMainHand()))
+            if ((event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) && event.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR && ManhuntUtil.checkCompassDisplayname(event.getPlayer().getInventory().getItemInMainHand()))
             {
                 //TODO: Implement to get a window to chose who will targeted
                 ManhuntFollowSelectMenu manhuntFollowSelectMenu = new ManhuntFollowSelectMenu(Main.getPlayerMenuUtility((Player) event.getPlayer()));
@@ -43,16 +44,13 @@ public class CompassHandler implements Listener
             if ((event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) && ManhuntUtil.checkCompassDisplayname(event.getPlayer().getInventory().getItemInMainHand()))
             {
                 event.getPlayer().sendMessage(Bukkit.getPlayer(userTarget.get(event.getPlayer().getUniqueId())).getName() + " befindet sich in der: " + Bukkit.getPlayer(userTarget.get(event.getPlayer().getUniqueId())).getLocation().getWorld().getName());
-                if(!Bukkit.getPlayer(userTarget.get(event.getPlayer().getUniqueId())).getLocation().getWorld().getName().equalsIgnoreCase("world"))
-                {
-                    ItemStack compassForNether = TargetCompass.createCreate();
-                    CompassMeta compassMeta = (CompassMeta) compassForNether.getItemMeta();
-                    compassMeta.setDisplayName(ManhuntUtil.COMPASSNETHER);
-                    compassMeta.setLodestoneTracked(true);
-                    compassMeta.setLodestone(Bukkit.getPlayer(userTarget.get(event.getPlayer().getUniqueId())).getLocation());
-                    compassForNether.setItemMeta(compassMeta);
+                Location targetLocation = Bukkit.getPlayer(userTarget.get(event.getPlayer().getUniqueId())).getLocation();
 
-                    event.getPlayer().getInventory().setItem(8,compassForNether);
+                if (event.getPlayer().getLocation().getWorld() == targetLocation.getWorld())
+                {
+                    CompassMeta meta = (CompassMeta) event.getItem().getItemMeta();
+                    meta.setLodestone(targetLocation);
+                    event.getItem().setItemMeta(meta);
                 }
             }
         }
@@ -68,77 +66,21 @@ public class CompassHandler implements Listener
     {
         UUID playerUid = event.getPlayer().getUniqueId();
 
-/*        for (UUID uuid : userTarget.keySet()) {
-            if (userTarget.get(uuid).equals(playerUid))
-            {
-                Player userPlayer = Bukkit.getPlayer(uuid);
-                Player targetPlayer = Bukkit.getPlayer(userTarget.get(uuid));
-
-                //System.out.println(userPlayer.getWorld().getName());
-
-                if (userPlayer.getWorld().getName().equals("world"))
-                {
-                    System.out.println("target: " + targetPlayer.getLocation());
-                    System.out.println("Compass: " + userPlayer.getCompassTarget());
-                    System.out.println("hello");
-                    userPlayer.setCompassTarget(targetPlayer.getLocation());
-                }
-                if (targetPlayer.getWorld().getName().equals("world_nether"))
-                {
-                    //System.out.println("true");
-                    //userPlayer.setCompassTarget(targetPlayer.getLocation());
-                    if (userPlayer.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Targeter"))
-                    {
-                        System.out.println("target: " + targetPlayer.getLocation());
-                        System.out.println("Compass: " + userPlayer.getCompassTarget());
-                        ItemStack compass = userPlayer.getInventory().getItemInMainHand();
-                        CompassMeta compassMeta = (CompassMeta) compass.getItemMeta();
-                        compassMeta.setLodestone(targetPlayer.getLocation());
-                        compassMeta.setLodestoneTracked(true);
-                        compass.setItemMeta(compassMeta);
-                        userPlayer.getInventory().setItem(userPlayer.getInventory().getHeldItemSlot(), compass);
-                    }
-                }
-
-            }
-        }*/
-
         if (userTarget.containsKey(playerUid))
         {
             Player userPlayer = Bukkit.getPlayer(playerUid);
             Player targetPlayer = Bukkit.getPlayer(userTarget.get(playerUid));
 
-            if (userPlayer.getWorld().getName().equals("world"))
+            if (userPlayer.getLocation().getWorld() == targetPlayer.getLocation().getWorld())
             {
-                userPlayer.setCompassTarget(targetPlayer.getLocation());
-                return;
+                CompassMeta meta = (CompassMeta) userPlayer.getInventory().getItem(userPlayer.getInventory().first(Material.COMPASS)).getItemMeta();
+                //meta.setLodestoneTracked(false);
+                meta.setLodestone(targetPlayer.getLocation());
+                userPlayer.getInventory().getItem(userPlayer.getInventory().first(Material.COMPASS)).setItemMeta(meta);
             }
-            if (targetPlayer.getWorld().getName().equals("world_nether"))
-            {
-                //System.out.println("true");
-                //userPlayer.setCompassTarget(targetPlayer.getLocation());
-/*                if (userPlayer.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Targeter"))
-                {
-                    ItemStack compass = userPlayer.getInventory().getItemInMainHand();
-                    CompassMeta compassMeta = (CompassMeta) compass.getItemMeta();
-                    compassMeta.setLodestone(targetPlayer.getLocation());
-                    compassMeta.setLodestoneTracked(true);
-                    compass.setItemMeta(compassMeta);
-                    userPlayer.getInventory().setItem(userPlayer.getInventory().getHeldItemSlot(), compass);
-                }*/
 
-                if (userPlayer.getInventory().getItem(8).getType() == Material.COMPASS)
-                {
-                    ItemStack compassForNether = TargetCompass.createCreate();
-                    CompassMeta compassMeta = (CompassMeta) compassForNether.getItemMeta();
-                    compassMeta.setDisplayName(ManhuntUtil.COMPASSNETHER);
-                    compassMeta.setLodestoneTracked(true);
-                    compassMeta.setLodestone(targetPlayer.getLocation());
-                    compassForNether.setItemMeta(compassMeta);
 
-                    userPlayer.getInventory().setItem(8, compassForNether);
-                }
-            }
+
         }
     }
 
