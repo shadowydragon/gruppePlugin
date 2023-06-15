@@ -80,10 +80,6 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
 
         addMenuBorder();
 
-        System.out.println("xx");
-
-
-
         ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
 
         if(players.isEmpty() || players == null)
@@ -178,7 +174,6 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
 
                 Inventory inventory = getInventory();
 
-                System.out.println("hier bin ich");
                 if (ManhuntPlayerRoleUtil.getManhuntRole(player).equalsIgnoreCase("speedrunner"))
                 {
                     if (ManhuntPlayerRoleUtil.getManhuntRole(players.get(getIndex())).equalsIgnoreCase("speedrunner"))

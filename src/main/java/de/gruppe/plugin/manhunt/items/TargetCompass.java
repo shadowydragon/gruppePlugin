@@ -1,5 +1,6 @@
 package de.gruppe.plugin.manhunt.items;
 
+import de.gruppe.plugin.manhunt.ManhuntUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +17,7 @@ public class TargetCompass
         ItemMeta compassMeta = compass.getItemMeta();
 
         compassMeta.setUnbreakable(true);
-        compassMeta.setDisplayName(ChatColor.RED + "Targeter");
+        compassMeta.setDisplayName(ManhuntUtil.COMPASSWORLD);
 
         List<String> compassLore = new LinkedList<>();
         compassLore.add("Dieser Compass kann");

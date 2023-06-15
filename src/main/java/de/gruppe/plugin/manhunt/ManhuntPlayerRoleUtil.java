@@ -23,4 +23,9 @@ public class ManhuntPlayerRoleUtil {
     {
         return player.getPersistentDataContainer().get(new NamespacedKey(player.getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING);
     }
+
+    public static void changeRole(Player player, ManhuntRoles role)
+    {
+        player.getPersistentDataContainer().set(new NamespacedKey(player.getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING, role.name().toLowerCase());
+    }
 }

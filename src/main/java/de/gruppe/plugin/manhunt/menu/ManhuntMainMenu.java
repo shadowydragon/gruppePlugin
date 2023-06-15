@@ -61,6 +61,11 @@ public class ManhuntMainMenu extends AbstractMenu {
             ManhuntFollowSelectMenu manhuntFollowSelectMenu = new ManhuntFollowSelectMenu(Main.getPlayerMenuUtility((Player) event.getWhoClicked()));
             manhuntFollowSelectMenu.open(((Player) event.getWhoClicked()).getPlayer());
         }
+        else if (displayName.equalsIgnoreCase("Select Role"))
+        {
+            ManhuntRoleSelectMenu manhuntRoleSelectMenu = new ManhuntRoleSelectMenu(Main.getPlayerMenuUtility((Player) event.getWhoClicked()));
+            manhuntRoleSelectMenu.open();
+        }
 
     }
 
@@ -101,11 +106,7 @@ public class ManhuntMainMenu extends AbstractMenu {
         inventory.setItem(8, close);
         inventory.setItem(0, getCompass);
         inventory.setItem(1, playerTarget);
-
-
-
-
-
+        inventory.setItem(2, selectRole);
     }
 
     @Override
@@ -145,5 +146,6 @@ public class ManhuntMainMenu extends AbstractMenu {
         inventory.setItem(8, close);
         inventory.setItem(0, getCompass);
         inventory.setItem(1, playerTarget);
+        inventory.setItem(2, selectRole);
     }
 }
