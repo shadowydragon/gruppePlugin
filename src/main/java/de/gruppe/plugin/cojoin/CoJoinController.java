@@ -23,6 +23,18 @@ public class CoJoinController {
     public void addCoJoinPlayerRole(Player player, CoJoinRole role)
     {
         playerInController.put(role, player);
+        if (role != CoJoinRole.INVENTORY)
+        {
+            if (playerHasRole(player, CoJoinRole.INVENTORY))
+            {
+                return;
+            }
+            player.setCanPickupItems(false);
+        }
+        else
+        {
+            player.setCanPickupItems(true);
+        }
     }
 
     public String getControlerName() {
