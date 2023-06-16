@@ -3,3 +3,10 @@ Manhunt: true
 
 #If true then the data for Conjoin will get Load
 Conjoin: true
+
+#If true then the data for Multiverse will get Load
+Multiverse: true
+
+
+#Set if for the manhunt frindly fire ist actice or inactive Default: false
+ManhuntFriendlyFire: false

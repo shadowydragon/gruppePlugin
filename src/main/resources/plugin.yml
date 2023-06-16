@@ -53,4 +53,7 @@ commands:
   manhunt setRole speedrunner:
     description: set role
 
+  multiverse:
+    description: multiple worlds
+
 

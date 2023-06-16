@@ -10,6 +10,7 @@ import de.gruppe.plugin.manhunt.handlers.CompassHandler;
 import de.gruppe.plugin.manhunt.handlers.ManhuntPlayerHandler;
 import de.gruppe.plugin.manhunt.listener.MenuListener;
 import de.gruppe.plugin.menusystem.PlayerMenuUtility;
+import de.gruppe.plugin.multiverse.command.MultiverseCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -40,8 +41,8 @@ public final class Main extends JavaPlugin {
         plugin = this;
         System.out.println("Ich habe gestartet");
 
-        getConfig().options().copyDefaults();
-        saveDefaultConfig();
+        //getConfig().options().copyDefaults();
+        //saveDefaultConfig();
 
         registerCommands();
         registerHandlers();
@@ -62,7 +63,10 @@ public final class Main extends JavaPlugin {
         }
 
 
-
+        if(getConfig().getBoolean("Multiverse"))
+        {
+            getCommand("multiverse").setExecutor(new MultiverseCommand());
+        }
     }
 
     private void registerHandlers() {
