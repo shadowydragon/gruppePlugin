@@ -31,7 +31,11 @@ public class CoJoinUtil
         {
             return true;
         }
-        else if (checkString.equalsIgnoreCase(CoJoinRole.MOVEMENT.name()))
+        else if (checkString.equalsIgnoreCase(CoJoinRole.MOVEMENT_WALK.name()))
+        {
+            return true;
+        }
+        else if (checkString.equalsIgnoreCase(CoJoinRole.MOVEMENT_LOOKDIRECTION.name()))
         {
             return true;
         }

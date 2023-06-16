@@ -2,22 +2,31 @@ name: gruppe
 version: '${project.version}'
 main: de.gruppe.plugin.Main
 commands:
-  conjoin:
+  cojoin:
     description: Assigns a player to control attack.
 
-  conjoin start:
+  cojoin start:
     description: Startet die conjoin
 
-  conjoin attack:
+  cojoin attack:
     description: set player to attack controller
 
-  conjoin break:
+  cojoin break:
     description: set player to break controller
 
-  conjoin inventory:
+  cojoin inventory:
     description: set player to inventory controller
 
-  conjoin movement:
+  cojoin movement:
+    description: set player to attack controller
+
+  cojoin getroles:
+    description: set player to attack controller
+
+  cojoin createController:
+    description: set player to attack controller
+
+  cojoin setRole:
     description: set player to attack controller
 
   setName:

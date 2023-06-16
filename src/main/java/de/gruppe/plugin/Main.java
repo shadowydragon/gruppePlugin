@@ -51,7 +51,7 @@ public final class Main extends JavaPlugin {
     private void registerCommands() {
         if (getConfig().getBoolean("Conjoin"))
         {
-            getCommand("cojoin").setExecutor(new ConjoinCommand());
+            getCommand("cojoin").setExecutor(new CoJoinCommand());
         }
 
         getCommand("setName").setExecutor(new SetName());

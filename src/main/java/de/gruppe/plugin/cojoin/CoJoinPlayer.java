@@ -2,9 +2,7 @@ package de.gruppe.plugin.cojoin;
 
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class CoJoinPlayer {
 
@@ -40,7 +38,11 @@ public class CoJoinPlayer {
         for (CoJoinRole value : CoJoinRole.values()) {
             if (playerHashMap.get(value) == null)
             {
-                emptyRoles.add(value);
+                if (CoJoinRole.COJOINROLE != value)
+                {
+                    emptyRoles.add(value);
+                }
+
             }
         }
         if (emptyRoles.isEmpty())
@@ -49,5 +51,25 @@ public class CoJoinPlayer {
         }
         return emptyRoles;
 
+    }
+
+
+    //Returns a list for each player and the role he has
+    public List<String> getSetRoleAndPlayer()
+    {
+        List<String> buf = new LinkedList<>();
+
+        for (CoJoinRole value : CoJoinRole.values()) {
+
+            if (playerHashMap.get(value) != null)
+            {
+                buf.add(value.name() + ": " + playerHashMap.get(value).getName());
+            }
+        }
+        if (buf.isEmpty())
+        {
+            return null;
+        }
+        return buf;
     }
 }
