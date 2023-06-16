@@ -33,7 +33,6 @@ public class CompassHandler implements Listener
 
             if ((event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) && event.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR && ManhuntUtil.checkCompassDisplayname(event.getPlayer().getInventory().getItemInMainHand()))
             {
-                //TODO: Implement to get a window to chose who will targeted
                 ManhuntFollowSelectMenu manhuntFollowSelectMenu = new ManhuntFollowSelectMenu(Main.getPlayerMenuUtility((Player) event.getPlayer()));
                 manhuntFollowSelectMenu.open(event.getPlayer());
             }

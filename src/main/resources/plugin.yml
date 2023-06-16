@@ -5,30 +5,6 @@ commands:
   cojoin:
     description: Assigns a player to control attack.
 
-  cojoin start:
-    description: Startet die conjoin
-
-  cojoin attack:
-    description: set player to attack controller
-
-  cojoin break:
-    description: set player to break controller
-
-  cojoin inventory:
-    description: set player to inventory controller
-
-  cojoin movement:
-    description: set player to attack controller
-
-  cojoin getroles:
-    description: set player to attack controller
-
-  cojoin createController:
-    description: set player to attack controller
-
-  cojoin setRole:
-    description: set player to attack controller
-
   setName:
     description: changes the name from a player
 

@@ -10,3 +10,6 @@ Multiverse: true
 
 #Set if for the manhunt frindly fire ist actice or inactive Default: false
 ManhuntFriendlyFire: false
+
+#if true only the person who has the inventory role can acces the inventory
+CojoinAccessInventory: true
