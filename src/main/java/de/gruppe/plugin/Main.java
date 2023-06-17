@@ -1,7 +1,7 @@
 package de.gruppe.plugin;
 
 import de.gruppe.plugin.cojoin.handlers.*;
-import de.gruppe.plugin.commands.SetName;
+import de.gruppe.plugin.commands.*;
 import de.gruppe.plugin.cojoin.commands.*;
 import de.gruppe.plugin.manhunt.commands.ManhuntCommand;
 import de.gruppe.plugin.manhunt.handlers.CompassHandler;
@@ -53,7 +53,12 @@ public final class Main extends JavaPlugin {
             getCommand("cojoin").setExecutor(new CoJoinCommand());
         }
 
-        getCommand("setName").setExecutor(new SetName());
+        getCommand("setName").setExecutor(new SetNameCommand());
+        getCommand("Collidable").setExecutor(new CollidableCommand());
+        getCommand("HideFromPlayer").setExecutor(new HideFromPlayerCommand());
+        getCommand("ShowToPlayer").setExecutor(new ShowToPlayerCommand());
+        getCommand("Vanish").setExecutor(new VanishCommand());
+        getCommand("God").setExecutor(new GodCommand());
 
         if (getConfig().getBoolean("Manhunt"))
         {
@@ -79,8 +84,8 @@ public final class Main extends JavaPlugin {
             pluginManager.registerEvents(new CoJoinInventoryHandler(), this);
             pluginManager.registerEvents(new CoJoinMovementHandler(), this);
             pluginManager.registerEvents(new CoJoinActionsHandler(), this);
+            pluginManager.registerEvents(new CoJoinHealthAndHunger(),this);
         }
-
 
         if (getConfig().getBoolean("Manhunt"))
         {

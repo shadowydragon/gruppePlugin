@@ -32,4 +32,14 @@ commands:
   multiverse:
     description: multiple worlds
 
+  Vanish:
+
+  HideFromPlayer:
+
+  Collidable:
+
+  ShowToPlayer:
+
+  God:
+
 

@@ -131,6 +131,9 @@ public class CoJoinCommand implements CommandExecutor {
                         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromName(controllerName);
 
                         controller.addCoJoinPlayerRole(senderPlayer, CoJoinRole.valueOf(args[2].toUpperCase()));
+                        senderPlayer.setCollidable(false);
+                        senderPlayer.setInvulnerable(true);
+
                         System.out.println(args[2].toUpperCase());
 
                     }

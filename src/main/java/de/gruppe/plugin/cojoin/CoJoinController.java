@@ -1,5 +1,7 @@
 package de.gruppe.plugin.cojoin;
 
+import de.gruppe.plugin.Main;
+import de.gruppe.plugin.Util;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -23,6 +25,11 @@ public class CoJoinController {
     public void addCoJoinPlayerRole(Player player, CoJoinRole role)
     {
         playerInController.put(role, player);
+
+        //Set that the player cant see the other player for this controller
+        Util.hidePlayersFromPlayer(player, getPlayersForController());
+
+        //Check if player has the inventory role for pickup items
         if (role != CoJoinRole.INVENTORY)
         {
             if (playerHasRole(player, CoJoinRole.INVENTORY))
