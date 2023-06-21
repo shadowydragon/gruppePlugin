@@ -3,11 +3,17 @@ package de.gruppe.plugin.cojoin.commands;
 import de.gruppe.plugin.cojoin.CoJoinController;
 import de.gruppe.plugin.cojoin.CoJoinControllerPlayerList;
 import de.gruppe.plugin.cojoin.CoJoinRole;
+import de.gruppe.plugin.cojoin.config.CoJoinSaveConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 public class CoJoinCommand implements CommandExecutor {
     @Override
@@ -63,6 +69,93 @@ public class CoJoinCommand implements CommandExecutor {
                 senderPlayer.sendMessage("Controller Names:");
                 for (String controllerName : CoJoinControllerPlayerList.getControllerNames()) {
                     senderPlayer.sendMessage(ChatColor.GOLD + controllerName);
+                }
+            }
+
+            if (args[0].equalsIgnoreCase("save"))
+            {
+                int controllerNumber =0;
+                for (CoJoinController controller : CoJoinControllerPlayerList.getCoJoinPlayerControllers()) {
+                    CoJoinSaveConfig.set("Controllers.Controller_Names." + ++controllerNumber, controller.getControlerName());
+
+                    File file = new File("./plugins/Saves/", "cojoinSaves.yml");
+                    if (file.exists())
+                    {
+                        file.delete();
+                        try {
+                            file.createNewFile();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                    for (CoJoinRole value : CoJoinRole.values()) {
+
+                        if (value == CoJoinRole.COJOINROLE)
+                        {
+                            continue;
+                        }
+
+                        if (controller.getPlayerInController().get(value) == null)
+                        {
+                            CoJoinSaveConfig.set("Controllers.Controller_PlayerRoles." + controllerNumber + "." + value.name() + "_" + controllerNumber, "null");
+
+                            continue;
+                        }
+
+                        CoJoinSaveConfig.set("Controllers.Controller_PlayerRoles." + controllerNumber + "." + value.name() + "_" + controllerNumber, controller.getPlayerInController().get(value).getName());
+                    }
+                }
+                System.out.println("Saved");
+            }
+
+            if (args[0].equalsIgnoreCase("load"))
+            {
+                int number = 0;
+
+                while (CoJoinSaveConfig.contains("Controllers.Controller_Names." + ++number))
+                {
+                    String controllerName = (String) CoJoinSaveConfig.get("Controllers.Controller_Names." + number);
+
+                    if (CoJoinControllerPlayerList.getControllerFromName(controllerName) == null)
+                    {
+                        CoJoinControllerPlayerList.addPlayerController(new CoJoinController(controllerName));
+                    }
+
+
+
+
+
+                    for (CoJoinRole value : CoJoinRole.values()) {
+
+                        if (value == CoJoinRole.COJOINROLE)
+                        {
+                            continue;
+                        }
+
+                        if (CoJoinSaveConfig.contains("Controllers.Controller_PlayerRoles." + number + "." + value.name() + "_" + number))
+                        {
+                            Object obj = CoJoinSaveConfig.get("Controllers.Controller_PlayerRoles." + number + "." + value.name() + "_" + number);
+
+                            if (obj instanceof String)
+                            {
+                                String stingValue = (String) obj;
+
+                                if (stingValue.equalsIgnoreCase("null"))
+                                {
+                                    CoJoinControllerPlayerList.getControllerFromName(controllerName).addCoJoinPlayerRole(null, value);
+                                }
+                                else
+                                {
+                                    Player player = Bukkit.getPlayer(stingValue);
+                                    CoJoinControllerPlayerList.getControllerFromName(controllerName).addCoJoinPlayerRole(player, value);
+                                }
+                            }
+                        }
+
+
+                    }
+
                 }
             }
         }

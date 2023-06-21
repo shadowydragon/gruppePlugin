@@ -8,8 +8,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -31,6 +33,12 @@ public class CoJoinActionsHandler implements Listener {
         {
             event.setCancelled(true);
         }
+
+
+
+        controller.getPlayerInController().get(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().setAmount(
+                controller.getPlayerInController().get(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().getAmount() -1);
+
     }
 
     @EventHandler
@@ -64,6 +72,22 @@ public class CoJoinActionsHandler implements Listener {
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
         if (!controller.playerHasRole(player, CoJoinRole.BREAK))
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
+        Player player = (Player) event.getPlayer();
+
+        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
+        {
+            return;
+        }
+        CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
+
+        if (!controller.playerHasRole(player, CoJoinRole.INVENTORY))
         {
             event.setCancelled(true);
         }

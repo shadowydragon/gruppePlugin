@@ -6,16 +6,13 @@ import de.gruppe.plugin.cojoin.CoJoinRole;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.*;
 
 public class CoJoinHealthAndHunger implements Listener {
 
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event)
     {
-
         if (event.getEntity() instanceof Player)
         {
             Player player = (Player) event.getEntity();
@@ -43,7 +40,13 @@ public class CoJoinHealthAndHunger implements Listener {
                 return;
             }
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
-            updateHealth(controller, player);
+
+            if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK) || controller.playerHasRole(player, CoJoinRole.MOVEMENT_LOOKDIRECTION))
+            {
+                updateHealth(controller, player, 0);
+            }
+
+
         }
     }
 
@@ -60,15 +63,82 @@ public class CoJoinHealthAndHunger implements Listener {
                 return;
             }
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
-            updateHealth(controller, player);
-        }
 
+
+            if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK) || controller.playerHasRole(player, CoJoinRole.MOVEMENT_LOOKDIRECTION))
+            {
+                updateHealth(controller, player, event.getDamage());
+            }
+        }
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof Player)
+        {
+            Player player = (Player) event.getEntity();
+
+            //If player doesn't belong to a controller he can do it
+            if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
+            {
+                return;
+            }
+            CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
+
+
+            if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK) || controller.playerHasRole(player, CoJoinRole.MOVEMENT_LOOKDIRECTION))
+            {
+                if (event.getDamager() instanceof Player && controller.playerIsInController((Player) event.getDamager()))
+                {
+                    event.setCancelled(true);
+                }
+                updateHealth(controller, player, event.getDamage());
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        Player player = (Player) event.getEntity();
+
+        //If player doesn't belong to a controller he can do it
+        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
+        {
+            return;
+        }
+        CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
+
+
+        if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK))
+        {
+            controller.getPlayersForController(player).forEach(player1 -> player1.getInventory().clear());
+        }
+    }
+
+    @EventHandler
+    public void onEntityPotionEffect(EntityPotionEffectEvent event) {
+        if (event.getEntity() instanceof Player player)
+        {
+            //If player doesn't belong to a controller he can do it
+            if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
+            {
+                return;
+            }
+            CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
+
+
+            if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK))
+            {
+                controller.getPlayersForController(player).forEach(player1 -> player1.getActivePotionEffects().forEach(potionEffect -> player1.removePotionEffect(potionEffect.getType())));
+                controller.getPlayersForController(player).forEach(player1 -> player1.addPotionEffects(player.getActivePotionEffects()));
+            }
+        }
     }
 
     private void updateHunger(CoJoinController controller, Player whoTrigger)
     {
         for (Player player : controller.getPlayersForController()) {
-            if (player.equals(whoTrigger))
+            if (player == null || player.equals(whoTrigger))
             {
                 continue;
             }
@@ -76,14 +146,14 @@ public class CoJoinHealthAndHunger implements Listener {
         }
     }
 
-    private void updateHealth(CoJoinController controller, Player whoTrigger)
+    private void updateHealth(CoJoinController controller, Player whoTrigger, double damage)
     {
         for (Player player : controller.getPlayersForController()) {
-            if (player.equals(whoTrigger))
+            if (player == null || player.equals(whoTrigger))
             {
                 continue;
             }
-            player.setHealth(whoTrigger.getHealth());
+            player.setHealth(whoTrigger.getHealth() - damage);
         }
     }
 

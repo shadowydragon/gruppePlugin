@@ -9,7 +9,7 @@ import java.util.List;
 public class CoJoinControllerPlayerList {
     //List for the player who is controled from more player
 
-    private static final List<CoJoinController> CO_JOIN_CONTROLLER_CONTROLLERS = new ArrayList<>();
+    private static List<CoJoinController> CO_JOIN_CONTROLLER_CONTROLLERS = new ArrayList<>();
 
 
     public static void addPlayerController(CoJoinController player)
@@ -17,7 +17,11 @@ public class CoJoinControllerPlayerList {
         CO_JOIN_CONTROLLER_CONTROLLERS.add(player);
     }
 
-    public List<CoJoinController> getCoJoinPlayerControllers() {
+    public static void setCoJoinControllerControllers(List<CoJoinController> coJoinControllerControllers) {
+        CO_JOIN_CONTROLLER_CONTROLLERS = coJoinControllerControllers;
+    }
+
+    public static List<CoJoinController> getCoJoinPlayerControllers() {
         return CO_JOIN_CONTROLLER_CONTROLLERS;
     }
 
@@ -52,6 +56,8 @@ public class CoJoinControllerPlayerList {
         }
         return null;
     }
+
+
 
 
 

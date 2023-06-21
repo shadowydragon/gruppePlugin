@@ -27,6 +27,10 @@ public class CoJoinController {
         playerInController.put(role, player);
 
         //Set that the player cant see the other player for this controller
+        if (player == null)
+        {
+            return;
+        }
         Util.hidePlayersFromPlayer(player, getPlayersForController());
 
         //Check if player has the inventory role for pickup items
@@ -34,6 +38,7 @@ public class CoJoinController {
         {
             if (playerHasRole(player, CoJoinRole.INVENTORY))
             {
+                player.setCanPickupItems(true);
                 return;
             }
             player.setCanPickupItems(false);
@@ -72,6 +77,11 @@ public class CoJoinController {
 
     }
 
+    public Player getPlayerForRole(CoJoinRole role)
+    {
+        return playerInController.get(role);
+    }
+
 
     //Returns a list for each player and the role he has as string
     public List<String> getSetRoleAndPlayer()
@@ -97,12 +107,33 @@ public class CoJoinController {
     {
         Set<Player> playerSet = new HashSet<>();
         for (CoJoinRole value : CoJoinRole.values()) {
+            if (playerInController.get(value) == null)
+            {
+                continue;
+            }
             playerSet.add(playerInController.get(value));
         }
 
         return playerSet;
     }
 
+    //Returns a player list without the given player
+    public Set<Player> getPlayersForController(Player player)
+    {
+        Set<Player> playerSet = new HashSet<>();
+        for (CoJoinRole value : CoJoinRole.values()) {
+            if (playerInController.get(value) == null || playerInController.get(value).equals(player))
+            {
+                continue;
+            }
+
+            playerSet.add(playerInController.get(value));
+        }
+
+        return playerSet;
+    }
+
+    //Returns if a player belongs to this controller
     public boolean playerIsInController(Player player)
     {
         if (playerInController.containsValue(player))

@@ -50,8 +50,6 @@ public class CojoinedHandlers implements Listener
                 }
                 else {
                     event.setCancelled(true);
-
-
                 }
             }catch (Exception e)
             {

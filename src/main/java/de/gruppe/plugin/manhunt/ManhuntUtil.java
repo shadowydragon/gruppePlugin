@@ -2,6 +2,7 @@ package de.gruppe.plugin.manhunt;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,20 +15,25 @@ public class ManhuntUtil {
 
     public static boolean checkCompassDisplayname(ItemStack compass)
     {
-        String displayname = compass.getItemMeta().getDisplayName();
 
-        if (displayname.equalsIgnoreCase(COMPASSWORLD))
+        if (compass.getType().equals(Material.COMPASS))
         {
-            return true;
+            String displayname = compass.getItemMeta().getDisplayName();
+
+            if (displayname.equalsIgnoreCase(COMPASSWORLD))
+            {
+                return true;
+            }
+            else if (displayname.equalsIgnoreCase(COMPASSNETHER))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        else if (displayname.equalsIgnoreCase(COMPASSNETHER))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
 

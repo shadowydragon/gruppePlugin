@@ -71,8 +71,6 @@ public class CoJoinUtil
             }
             //System.out.println("tele: " + player.getName());
             player.teleport(whoMoved);
-            System.out.println(player.getName() + " Collidable: " + player.isCollidable());
-            System.out.println(whoMoved.getName() + " Collidable: " + whoMoved.isCollidable());
         }
     }
 

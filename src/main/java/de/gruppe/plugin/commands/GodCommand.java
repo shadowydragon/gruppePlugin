@@ -1,5 +1,6 @@
 package de.gruppe.plugin.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +15,7 @@ public class GodCommand implements CommandExecutor {
             Player player = (Player) sender;
 
             player.setInvulnerable(!player.isInvulnerable());
-            player.sendMessage("Godmode:" + player.isInvulnerable());
+            player.sendMessage(ChatColor.GOLD + "Godmode:" + (player.isInvulnerable()? ChatColor.GREEN + "Enabled": ChatColor.RED + "Disabled"));
         }
 
         return false;

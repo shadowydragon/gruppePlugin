@@ -29,7 +29,7 @@ public class HideFromPlayerCommand implements CommandExecutor {
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("all"))
         {
-            Set<Player> onlinePlayers = new HashSet<>(Bukkit.getOnlinePlayers());
+            Set<Player> onlinePlayers = new HashSet<>(Bukkit.getServer().getOnlinePlayers());
 
             Player player = (Player) sender;
 

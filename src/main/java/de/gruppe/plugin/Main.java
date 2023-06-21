@@ -1,5 +1,6 @@
 package de.gruppe.plugin;
 
+import de.gruppe.plugin.cojoin.config.CoJoinSaveConfig;
 import de.gruppe.plugin.cojoin.handlers.*;
 import de.gruppe.plugin.commands.*;
 import de.gruppe.plugin.cojoin.commands.*;
@@ -9,6 +10,7 @@ import de.gruppe.plugin.manhunt.handlers.ManhuntPlayerHandler;
 import de.gruppe.plugin.manhunt.listener.MenuListener;
 import de.gruppe.plugin.menusystem.PlayerMenuUtility;
 import de.gruppe.plugin.multiverse.command.MultiverseCommand;
+import net.minecraft.world.level.storage.SaveData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -39,6 +41,8 @@ public final class Main extends JavaPlugin {
         plugin = this;
         System.out.println("Ich habe gestartet");
 
+        //new CoJoinSaveConfig();
+
         //getConfig().options().copyDefaults();
         //saveDefaultConfig();
 
@@ -59,6 +63,11 @@ public final class Main extends JavaPlugin {
         getCommand("ShowToPlayer").setExecutor(new ShowToPlayerCommand());
         getCommand("Vanish").setExecutor(new VanishCommand());
         getCommand("God").setExecutor(new GodCommand());
+        getCommand("Fly").setExecutor(new FlyCommand());
+        getCommand("menu").setExecutor(new OpenMainMenuCommand());
+        getCommand("EnderChest").setExecutor(new EnderChestCommand());
+        getCommand("invsee").setExecutor(new InvSeeCommand());
+
 
         if (getConfig().getBoolean("Manhunt"))
         {
@@ -119,5 +128,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+
+
     }
 }
