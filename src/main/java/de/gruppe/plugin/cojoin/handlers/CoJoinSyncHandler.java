@@ -1,5 +1,6 @@
 package de.gruppe.plugin.cojoin.handlers;
 
+import de.gruppe.plugin.Main;
 import de.gruppe.plugin.cojoin.CoJoinController;
 import de.gruppe.plugin.cojoin.CoJoinControllerPlayerList;
 import de.gruppe.plugin.cojoin.CoJoinRole;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerExpChangeEvent;
 
 public class CoJoinSyncHandler implements Listener {
 
@@ -111,13 +113,34 @@ public class CoJoinSyncHandler implements Listener {
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
             assert controller != null;
-            if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK) || controller.playerHasRole(player, CoJoinRole.MOVEMENT_LOOKDIRECTION))
+            if (event.getDamager() instanceof Player && controller.playerIsInController((Player) event.getDamager())) {
+                event.setCancelled(true);
+            }
+            updateHealth(controller, player, event.getFinalDamage());
+        }
+    }
+
+    @EventHandler
+    public void onEntityDamageByPlayer(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player player)
+        {
+
+            if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
+                return;
+            }
+
+            if (event.getEntity() instanceof Mob target)
             {
-                if (event.getDamager() instanceof Player && controller.playerIsInController((Player) event.getDamager()))
+                CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
+
+                assert controller != null;
+                Player walkPlayer = controller.getPlayerForRole(CoJoinRole.MOVEMENT_WALK);
+
+                if (walkPlayer.equals(player))
                 {
-                    event.setCancelled(true);
+                    return;
                 }
-                updateHealth(controller, player, event.getDamage());
+                target.setTarget(walkPlayer);
             }
         }
     }
@@ -154,6 +177,38 @@ public class CoJoinSyncHandler implements Listener {
                 controller.getPlayersForController(walkPlayer).forEach(player1 -> player1.getActivePotionEffects().forEach(potionEffect -> player1.removePotionEffect(potionEffect.getType())));
                 controller.getPlayersForController(walkPlayer).forEach(player1 -> player1.addPotionEffects(walkPlayer.getActivePotionEffects()));
             }
+        }
+    }
+
+    @EventHandler
+    public void levelChange(PlayerExpChangeEvent event)
+    {
+        Player attackController = Bukkit.getPlayer(Main.attackController);
+        Player breakController = Bukkit.getPlayer(Main.breakController);
+        Player inventoryController = Bukkit.getPlayer(Main.inventoryController);
+        Player movementController = Bukkit.getPlayer(Main.movementController);
+
+        Player eventPlayer = event.getPlayer();
+        if (eventPlayer.equals(attackController))
+        {
+            breakController.giveExp(event.getAmount());
+            inventoryController.giveExp(event.getAmount());
+            movementController.giveExp(event.getAmount());
+        }else if (eventPlayer.equals(breakController))
+        {
+            attackController.giveExp(event.getAmount());
+            inventoryController.giveExp(event.getAmount());
+            movementController.giveExp(event.getAmount());
+        }else if (eventPlayer.equals(inventoryController))
+        {
+            attackController.giveExp(event.getAmount());
+            breakController.giveExp(event.getAmount());
+            movementController.giveExp(event.getAmount());
+        }else if (eventPlayer.equals(movementController))
+        {
+            attackController.giveExp(event.getAmount());
+            breakController.giveExp(event.getAmount());
+            inventoryController.giveExp(event.getAmount());
         }
     }
 

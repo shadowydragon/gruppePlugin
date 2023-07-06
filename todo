@@ -1,9 +1,10 @@
 //TODO inventory update check (obtain item/ change in inventory)
 //TODO Tool durability update
+//TODO bow use update inventory check
 //TODO Boats are buggy
 //TODO effect charing
 //TODO waterbucket fill fail
 //TODO blockplace event check rigth user dont delete item
 //TODO hungerchange
-//TODO bow use update inventory check
-//TODO player aggro
+//TODO Player Death event überarbeiten
+//TODO All Players get all sounds (Hurt etc.)
