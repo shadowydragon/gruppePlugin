@@ -20,7 +20,7 @@ public class HealthAndHungerSyncHandlers implements Listener {
 
     @EventHandler
     public void handle(EntityDamageEvent event) {
-        if(Main.isConjoined == true) {
+        if(Main.isConjoined) {
             if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK))
             {
                 System.out.println("sweep");

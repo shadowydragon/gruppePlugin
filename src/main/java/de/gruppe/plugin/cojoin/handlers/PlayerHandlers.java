@@ -6,6 +6,7 @@ import de.gruppe.plugin.cojoin.CoJoinControllerPlayerList;
 import de.gruppe.plugin.cojoin.CoJoinRole;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Enemy;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -48,9 +49,8 @@ public class PlayerHandlers implements Listener
 
     @EventHandler(ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Enemy)
+        if (event.getEntity() instanceof Mob target)
         {
-            Enemy target = (Enemy) event.getEntity();
 
             if (event.getDamager() instanceof Player player)
             {
@@ -64,9 +64,8 @@ public class PlayerHandlers implements Listener
                     return;
                 }
 
+                target.setTarget(walkPlayer);
 
-
-                target.setLastDamageCause(new EntityDamageByEntityEvent(walkPlayer, target, event.getCause(), event.getDamage()));
             }
 
 

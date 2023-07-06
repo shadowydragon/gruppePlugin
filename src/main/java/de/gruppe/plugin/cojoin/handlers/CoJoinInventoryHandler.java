@@ -11,6 +11,9 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ArmorMeta;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Objects;
 import java.util.Set;
@@ -162,10 +165,42 @@ public class CoJoinInventoryHandler implements Listener {
 
             }*/
 
-            controller.getPlayerInController().get(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().setDurability(
+/*            controller.getPlayerInController().get(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().setDurability(
                     (short) (controller.getPlayerInController().get(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().getDurability() - event.getDamage())
 
-            );
+            );*/
+
+
+            Player invPlayer = controller.getPlayerInController().get(CoJoinRole.INVENTORY);
+
+            //ItemMeta  =  invPlayer.getInventory().getItemInMainHand().getItemMeta();
+
+            if (event.getItem().getItemMeta() instanceof ArmorMeta)
+            {
+
+                ItemStack[] armor =  invPlayer.getInventory().getArmorContents();
+                for (ItemStack itemStack : armor) {
+                    if (itemStack.getType().equals(event.getItem().getType()))
+                    {
+                        Damageable armorMeta =  (Damageable) itemStack.getItemMeta();
+                        armorMeta.setDamage(armorMeta.getDamage() -1);
+                        itemStack.setItemMeta(armorMeta);
+                    }
+                }
+
+
+                return;
+            }
+
+
+
+            Damageable damageMeta = (Damageable) invPlayer.getInventory().getItemInMainHand().getItemMeta();
+
+            damageMeta.setDamage(damageMeta.getDamage() - 1);
+
+            invPlayer.getInventory().getItemInMainHand().setItemMeta(damageMeta);
+
+
         }
         updateInventorys(controller);
     }
