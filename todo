@@ -3,5 +3,7 @@
 //TODO hungerchange
 //TODO inventory update check (obtain item/ change in inventory)
 //TODO Boats are buggy
+//TODO Player Death event überarbeiten
+//TODO blockplace event check rigth user dont delete item
 //TODO effect charing
 //TODO All Players get all sounds (Hurt etc.)
