@@ -1,5 +1,6 @@
 package de.gruppe.plugin.cojoin.cojoinmenusystem;
 
+import de.gruppe.plugin.Main;
 import de.gruppe.plugin.cojoin.CoJoinController;
 import de.gruppe.plugin.cojoin.CoJoinControllerPlayerList;
 import de.gruppe.plugin.menusystem.AbstractMenu;
@@ -10,6 +11,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Objects;
 
 public class CoJoinCharacterControllerMenu extends AbstractMenu {
     private final Material CONTROLLERMATERIAL = Material.DIAMOND;
@@ -33,6 +36,10 @@ public class CoJoinCharacterControllerMenu extends AbstractMenu {
 
         ItemStack clickedItem = event.getCurrentItem();
 
+        CoJoinControllerRoleMenu coJoinControllerRoleMenu = new CoJoinControllerRoleMenu(Main.getPlayerMenuUtility((Player) event.getWhoClicked()));
+
+        assert clickedItem != null;
+        coJoinControllerRoleMenu.open(CoJoinControllerPlayerList.getControllerFromName(Objects.requireNonNull(clickedItem.getItemMeta()).getDisplayName()));
 
 
         event.setCancelled(true);
@@ -48,6 +55,7 @@ public class CoJoinCharacterControllerMenu extends AbstractMenu {
         if (!CoJoinControllerPlayerList.getCoJoinPlayerControllers().isEmpty())
         {
             for (CoJoinController coJoinPlayerController : CoJoinControllerPlayerList.getCoJoinPlayerControllers()) {
+                assert controllerMeta != null;
                 controllerMeta.setDisplayName(coJoinPlayerController.getControlerName());
                 controller.setItemMeta(controllerMeta);
 

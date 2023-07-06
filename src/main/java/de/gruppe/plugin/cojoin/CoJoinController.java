@@ -1,6 +1,5 @@
 package de.gruppe.plugin.cojoin;
 
-import de.gruppe.plugin.Main;
 import de.gruppe.plugin.Util;
 import org.bukkit.entity.Player;
 
@@ -117,6 +116,20 @@ public class CoJoinController {
         return playerSet;
     }
 
+    public Set<UUID> getPlayersUUIDForController()
+    {
+        Set<UUID> playerSet = new HashSet<>();
+        for (CoJoinRole value : CoJoinRole.values()) {
+            if (playerInController.get(value) == null)
+            {
+                continue;
+            }
+            playerSet.add(playerInController.get(value).getUniqueId());
+        }
+
+        return playerSet;
+    }
+
     //Returns a player list without the given player
     public Set<Player> getPlayersForController(Player player)
     {
@@ -136,21 +149,27 @@ public class CoJoinController {
     //Returns if a player belongs to this controller
     public boolean playerIsInController(Player player)
     {
-        if (playerInController.containsValue(player))
-        {
-            return true;
-        }
-        return false;
+        return playerInController.containsValue(player);
+    }
+
+    public Set<CoJoinRole> getRolesFromPlayer(Player player)
+    {
+        Set<CoJoinRole> bufRoles = new HashSet<>();
+
+        this.playerInController.forEach((role, player1) ->  {
+            if(player1 != null && player1.getUniqueId().equals(player.getUniqueId()))
+            {
+                bufRoles.add(role);
+            }
+        });
+
+        return bufRoles;
     }
 
     //Check if a player has a specific role in the Controller
     public boolean playerHasRole(Player player, CoJoinRole role)
     {
 
-        if ((playerInController.get(role) != null) && playerInController.get(role).equals(player))
-        {
-            return true;
-        }
-        return false;
+        return (playerInController.get(role) != null) && playerInController.get(role).equals(player);
     }
 }

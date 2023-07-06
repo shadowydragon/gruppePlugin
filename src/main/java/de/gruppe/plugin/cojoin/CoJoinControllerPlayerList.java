@@ -38,7 +38,7 @@ public class CoJoinControllerPlayerList {
     public static CoJoinController getControllerFromPlayer(Player player)
     {
         for (CoJoinController coJoinControllerController : CO_JOIN_CONTROLLER_CONTROLLERS) {
-            if (coJoinControllerController.getPlayersForController().contains(player))
+            if (coJoinControllerController.getPlayersUUIDForController().contains(player.getUniqueId()))
             {
                 return coJoinControllerController;
             }

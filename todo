@@ -1,6 +1,8 @@
-//TODO: Attacker cant attack others                 (Should be fixed)
-//TODO: On death dont drop inventory                (should be fixed)
-//TODO: EXP                                         (Should be fixed)
-//TODO: Food feed update inventory                  (Should be fixed)
-//TODO: EFFEKTE                                     (Should be fixed)
-//TODO: Armor durabity                              (Maybe Fixed)
+//TODO inventory update check (obtain item/ change in inventory)
+//TODO Tool durability update
+//TODO boats are bugs
+//TODO effect charing
+//TODO waterbucket fill fail
+//TODO blockplace event check rigth user dont delete item
+//TODO hungerchange
+//TODO bow use update inventory check

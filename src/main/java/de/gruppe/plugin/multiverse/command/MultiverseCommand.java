@@ -8,16 +8,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
+
 public class MultiverseCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!(sender instanceof Player))
+        if (!(sender instanceof Player playerSender))
         {
             return true;
         }
-
-        Player playerSender = (Player) sender;
 
         if (args.length == 2)
         {
@@ -25,7 +25,7 @@ public class MultiverseCommand implements CommandExecutor {
             {
                 if (MultiverseUtil.woldExist(args[1]))
                 {
-                    playerSender.teleport(MultiverseUtil.getWorldFromString(args[1]).getSpawnLocation());
+                    playerSender.teleport(Objects.requireNonNull(MultiverseUtil.getWorldFromString(args[1])).getSpawnLocation());
                 }
                 else
                 {

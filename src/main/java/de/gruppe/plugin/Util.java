@@ -8,26 +8,21 @@ public class Util {
 
 
     //Set that a player can't see the set of player
-    //player is who cant see the ones out from the set
+    //Player is who cant see the ones out from the set
     public static void hidePlayersFromPlayer(Player player, Set<Player> toHidePlayers)
     {
-        try {
+
             for (Player toHidePlayer : toHidePlayers) {
 
                 if (toHidePlayer == null)
                 {
                     continue;
                 }
-                System.out.println("hide a player " + toHidePlayer.getName());
                 toHidePlayer.setCollidable(false);
 
                 player.hidePlayer(Main.plugin, toHidePlayer);
             }
-        }
-        catch (IllegalArgumentException e)
-        {
-            System.out.println(e);
-        }
+
 
     }
 

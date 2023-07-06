@@ -13,9 +13,8 @@ public class CoJoinHealthAndHunger implements Listener {
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event)
     {
-        if (event.getEntity() instanceof Player)
+        if (event.getEntity() instanceof Player player)
         {
-            Player player = (Player) event.getEntity();
 
             //If player doesn't belong to a controller he can do it
             if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
@@ -23,16 +22,24 @@ public class CoJoinHealthAndHunger implements Listener {
                 return;
             }
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
-            updateHunger(controller, player);
+            assert controller != null;
+            if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK))
+            {
+                updateHunger(controller, player);
+            }
+            else
+            {
+                event.setCancelled(true);
+            }
+
         }
 
     }
 
     @EventHandler
     public void onEntityRegainHealth(EntityRegainHealthEvent event) {
-        if (event.getEntity() instanceof Player)
+        if (event.getEntity() instanceof Player player)
         {
-            Player player = (Player) event.getEntity();
 
             //If player doesn't belong to a controller he can do it
             if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
@@ -41,6 +48,7 @@ public class CoJoinHealthAndHunger implements Listener {
             }
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
+            assert controller != null;
             if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK) || controller.playerHasRole(player, CoJoinRole.MOVEMENT_LOOKDIRECTION))
             {
                 updateHealth(controller, player, 0);
@@ -53,9 +61,8 @@ public class CoJoinHealthAndHunger implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
 
-        if (event.getEntity() instanceof Player)
+        if (event.getEntity() instanceof Player player)
         {
-            Player player = (Player) event.getEntity();
 
             //If player doesn't belong to a controller he can do it
             if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
@@ -65,6 +72,7 @@ public class CoJoinHealthAndHunger implements Listener {
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
 
+            assert controller != null;
             if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK) || controller.playerHasRole(player, CoJoinRole.MOVEMENT_LOOKDIRECTION))
             {
                 updateHealth(controller, player, event.getDamage());
@@ -74,9 +82,8 @@ public class CoJoinHealthAndHunger implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player)
+        if (event.getEntity() instanceof Player player)
         {
-            Player player = (Player) event.getEntity();
 
             //If player doesn't belong to a controller he can do it
             if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
@@ -86,6 +93,7 @@ public class CoJoinHealthAndHunger implements Listener {
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
 
+            assert controller != null;
             if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK) || controller.playerHasRole(player, CoJoinRole.MOVEMENT_LOOKDIRECTION))
             {
                 if (event.getDamager() instanceof Player && controller.playerIsInController((Player) event.getDamager()))
@@ -99,7 +107,7 @@ public class CoJoinHealthAndHunger implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        Player player = (Player) event.getEntity();
+        Player player = event.getEntity();
 
         //If player doesn't belong to a controller he can do it
         if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
@@ -109,6 +117,7 @@ public class CoJoinHealthAndHunger implements Listener {
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
 
+        assert controller != null;
         if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK))
         {
             controller.getPlayersForController(player).forEach(player1 -> player1.getInventory().clear());
@@ -127,6 +136,7 @@ public class CoJoinHealthAndHunger implements Listener {
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
 
+            assert controller != null;
             if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK))
             {
                 controller.getPlayersForController(player).forEach(player1 -> player1.getActivePotionEffects().forEach(potionEffect -> player1.removePotionEffect(potionEffect.getType())));

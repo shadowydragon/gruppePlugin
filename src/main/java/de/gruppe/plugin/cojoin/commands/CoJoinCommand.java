@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.Objects;
 
 public class CoJoinCommand implements CommandExecutor {
     @Override
@@ -31,6 +31,7 @@ public class CoJoinCommand implements CommandExecutor {
         }
 
 
+        assert sender instanceof Player;
         Player senderPlayer = (Player) sender;
 
         //if you use the command without any arguments you get a list for possible arguments
@@ -137,18 +138,17 @@ public class CoJoinCommand implements CommandExecutor {
                         {
                             Object obj = CoJoinSaveConfig.get("Controllers.Controller_PlayerRoles." + number + "." + value.name() + "_" + number);
 
-                            if (obj instanceof String)
+                            if (obj instanceof String stingValue)
                             {
-                                String stingValue = (String) obj;
 
                                 if (stingValue.equalsIgnoreCase("null"))
                                 {
-                                    CoJoinControllerPlayerList.getControllerFromName(controllerName).addCoJoinPlayerRole(null, value);
+                                    Objects.requireNonNull(CoJoinControllerPlayerList.getControllerFromName(controllerName)).addCoJoinPlayerRole(null, value);
                                 }
                                 else
                                 {
                                     Player player = Bukkit.getPlayer(stingValue);
-                                    CoJoinControllerPlayerList.getControllerFromName(controllerName).addCoJoinPlayerRole(player, value);
+                                    Objects.requireNonNull(CoJoinControllerPlayerList.getControllerFromName(controllerName)).addCoJoinPlayerRole(player, value);
                                 }
                             }
                         }
@@ -186,6 +186,7 @@ public class CoJoinCommand implements CommandExecutor {
                             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromName(controllerName);
 
                             senderPlayer.sendMessage(ChatColor.YELLOW + "Diese Rollen sind nicht vergeben:");
+                            assert controller != null;
                             for (CoJoinRole emptyRole : controller.getEmptyRoles()) {
                                 senderPlayer.sendMessage(ChatColor.RED + emptyRole.name());
                                 System.out.println(emptyRole.name());
@@ -223,9 +224,18 @@ public class CoJoinCommand implements CommandExecutor {
                     {
                         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromName(controllerName);
 
+                        assert controller != null;
                         controller.addCoJoinPlayerRole(senderPlayer, CoJoinRole.valueOf(args[2].toUpperCase()));
-                        senderPlayer.setCollidable(false);
-                        senderPlayer.setInvulnerable(true);
+                        if (!controller.playerHasRole(senderPlayer, CoJoinRole.MOVEMENT_WALK) && CoJoinRole.valueOf(args[2].toUpperCase()) != CoJoinRole.MOVEMENT_WALK)
+                        {
+                            senderPlayer.setCollidable(false);
+                            senderPlayer.setInvulnerable(true);
+                        }
+                        else
+                        {
+                            senderPlayer.setCollidable(true);
+                            senderPlayer.setInvulnerable(false);
+                        }
 
                         System.out.println(args[2].toUpperCase());
 

@@ -11,6 +11,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Objects;
+
 public class MainMenu extends AbstractMenu{
 
     private final String manHuntIconDisplayName = ChatColor.RED +"Man Hunt Menu";
@@ -34,7 +36,7 @@ public class MainMenu extends AbstractMenu{
     @Override
     public void handleMenu(InventoryClickEvent event) {
 
-        if (event.getCurrentItem().getItemMeta().getDisplayName().equals(manHuntIconDisplayName))
+        if (Objects.requireNonNull(Objects.requireNonNull(event.getCurrentItem()).getItemMeta()).getDisplayName().equals(manHuntIconDisplayName))
         {
             ManhuntMainMenu manhuntMainMenu = new ManhuntMainMenu(Main.getPlayerMenuUtility((Player) event.getWhoClicked()));
             manhuntMainMenu.open(((Player) event.getWhoClicked()).getPlayer());
@@ -55,12 +57,14 @@ public class MainMenu extends AbstractMenu{
         ItemStack manHuntIcon = new ItemStack(manHuntIconMaterial);
         ItemMeta manHuntIconMeta = manHuntIcon.getItemMeta();
 
+        assert manHuntIconMeta != null;
         manHuntIconMeta.setDisplayName(manHuntIconDisplayName);
         manHuntIcon.setItemMeta(manHuntIconMeta);
 
 
         ItemStack coJoinIcon = new ItemStack(coJoinIconMaterial);
         ItemMeta coJoinIconMeta = coJoinIcon.getItemMeta();
+        assert coJoinIconMeta != null;
         coJoinIconMeta.setDisplayName(coJoinIconDisplayName);
         coJoinIcon.setItemMeta(coJoinIconMeta);
 

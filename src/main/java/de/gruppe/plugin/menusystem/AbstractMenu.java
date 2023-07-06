@@ -1,6 +1,5 @@
 package de.gruppe.plugin.menusystem;
 
-import jline.internal.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -29,7 +28,7 @@ public abstract class AbstractMenu implements InventoryHolder {
 
     public void open()
     {
-        inventory= Bukkit.createInventory(this, getSlots(), getMenuName());
+        inventory = Bukkit.createInventory(this, getSlots(), getMenuName());
 
         this.setMenuItems();
 
@@ -48,5 +47,13 @@ public abstract class AbstractMenu implements InventoryHolder {
     @Override
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public PlayerMenuUtility getPlayerMenuUtility() {
+        return playerMenuUtility;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 }

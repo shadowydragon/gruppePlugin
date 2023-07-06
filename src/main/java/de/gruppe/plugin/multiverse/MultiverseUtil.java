@@ -34,12 +34,8 @@ public class MultiverseUtil
         return null;
     }
 
-    public static boolean woldExist(World world)
+    public static boolean worldExist(World world)
     {
-        if (Bukkit.getServer().getWorlds().contains(world))
-        {
-            return true;
-        }
-        return false;
+        return Bukkit.getServer().getWorlds().contains(world);
     }
 }

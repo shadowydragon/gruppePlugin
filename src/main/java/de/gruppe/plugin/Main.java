@@ -1,16 +1,15 @@
 package de.gruppe.plugin;
 
-import de.gruppe.plugin.cojoin.config.CoJoinSaveConfig;
 import de.gruppe.plugin.cojoin.handlers.*;
 import de.gruppe.plugin.commands.*;
 import de.gruppe.plugin.cojoin.commands.*;
+import de.gruppe.plugin.handlers.ChatEvents;
 import de.gruppe.plugin.manhunt.commands.ManhuntCommand;
 import de.gruppe.plugin.manhunt.handlers.CompassHandler;
 import de.gruppe.plugin.manhunt.handlers.ManhuntPlayerHandler;
 import de.gruppe.plugin.manhunt.listener.MenuListener;
 import de.gruppe.plugin.menusystem.PlayerMenuUtility;
 import de.gruppe.plugin.multiverse.command.MultiverseCommand;
-import net.minecraft.world.level.storage.SaveData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -18,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -54,35 +54,37 @@ public final class Main extends JavaPlugin {
     private void registerCommands() {
         if (getConfig().getBoolean("Conjoin"))
         {
-            getCommand("cojoin").setExecutor(new CoJoinCommand());
+            Objects.requireNonNull(getCommand("cojoin")).setExecutor(new CoJoinCommand());
         }
 
-        getCommand("setName").setExecutor(new SetNameCommand());
-        getCommand("Collidable").setExecutor(new CollidableCommand());
-        getCommand("HideFromPlayer").setExecutor(new HideFromPlayerCommand());
-        getCommand("ShowToPlayer").setExecutor(new ShowToPlayerCommand());
-        getCommand("Vanish").setExecutor(new VanishCommand());
-        getCommand("God").setExecutor(new GodCommand());
-        getCommand("Fly").setExecutor(new FlyCommand());
-        getCommand("menu").setExecutor(new OpenMainMenuCommand());
-        getCommand("EnderChest").setExecutor(new EnderChestCommand());
-        getCommand("invsee").setExecutor(new InvSeeCommand());
+        Objects.requireNonNull(getCommand("setName")).setExecutor(new SetNameCommand());
+        Objects.requireNonNull(getCommand("Collidable")).setExecutor(new CollidableCommand());
+        Objects.requireNonNull(getCommand("HideFromPlayer")).setExecutor(new HideFromPlayerCommand());
+        Objects.requireNonNull(getCommand("ShowToPlayer")).setExecutor(new ShowToPlayerCommand());
+        Objects.requireNonNull(getCommand("Vanish")).setExecutor(new VanishCommand());
+        Objects.requireNonNull(getCommand("God")).setExecutor(new GodCommand());
+        Objects.requireNonNull(getCommand("Fly")).setExecutor(new FlyCommand());
+        Objects.requireNonNull(getCommand("menu")).setExecutor(new OpenMainMenuCommand());
+        Objects.requireNonNull(getCommand("EnderChest")).setExecutor(new EnderChestCommand());
+        Objects.requireNonNull(getCommand("invsee")).setExecutor(new InvSeeCommand());
 
 
         if (getConfig().getBoolean("Manhunt"))
         {
-            getCommand("manhunt").setExecutor(new ManhuntCommand());
+            Objects.requireNonNull(getCommand("manhunt")).setExecutor(new ManhuntCommand());
         }
 
 
         if(getConfig().getBoolean("Multiverse"))
         {
-            getCommand("multiverse").setExecutor(new MultiverseCommand());
+            Objects.requireNonNull(getCommand("multiverse")).setExecutor(new MultiverseCommand());
         }
     }
 
     private void registerHandlers() {
         PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(new ChatEvents(), this);
+        System.out.println("registered\n\n\n");
 
         if (getConfig().getBoolean("Conjoin"))
         {
@@ -102,6 +104,8 @@ public final class Main extends JavaPlugin {
             pluginManager.registerEvents(new CompassHandler(), this);
             pluginManager.registerEvents(new ManhuntPlayerHandler(), this);
         }
+
+
 
 
     }

@@ -1,26 +1,23 @@
 package de.gruppe.plugin.cojoin.handlers;
 
-import de.gruppe.plugin.Main;
 import de.gruppe.plugin.cojoin.CoJoinController;
 import de.gruppe.plugin.cojoin.CoJoinControllerPlayerList;
 import de.gruppe.plugin.cojoin.CoJoinRole;
-import de.gruppe.plugin.cojoin.CoJoinUtil;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.meta.ArmorMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
 import java.util.Set;
 
 public class CoJoinInventoryHandler implements Listener {
 
-    @EventHandler
+/*    @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
 
 
@@ -49,28 +46,23 @@ public class CoJoinInventoryHandler implements Listener {
             event.setCancelled(true);
 
 
-    }
+    }*/
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
 
-        if (event.getWhoClicked() instanceof Player)
-        {
-            Player player = (Player) event.getWhoClicked();
+        if (event.getWhoClicked() instanceof Player player) {
 
             //If player doesn't belong to a controller he can do it
-            if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
-            {
+            if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
                 return;
             }
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
-            if (!controller.playerHasRole(player, CoJoinRole.INVENTORY))
-            {
+            assert controller != null;
+            if (!controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
                 event.setCancelled(true);
-            }
-            else
-            {
+            } else {
                 updateInventorys(controller);
                 return;
             }
@@ -82,51 +74,38 @@ public class CoJoinInventoryHandler implements Listener {
     @EventHandler
     public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
 
-        if (event.getPlayer() instanceof Player)
-        {
-            Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
 
-            //If player doesn't belong to a controller he can do it
-            if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
-            {
-                return;
-            }
-            CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
-
-            if (!controller.playerHasRole(player, CoJoinRole.INVENTORY))
-            {
-                event.setCancelled(true);
-            }
-            else
-            {
-                updateInventorys(controller);
-            }
+        //If player doesn't belong to a controller he can do it
+        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
+            return;
         }
+        CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
-        event.setCancelled(true);
+        assert controller != null;
+        if (!controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
+            event.setCancelled(true);
+        } else {
+            updateInventorys(controller);
+        }
     }
 
     @EventHandler
     public void onEntityPickupItem(EntityPickupItemEvent event) {
-        if (event.getEntity() instanceof Player)
-        {
-            Player player = (Player) event.getEntity();
+        if (event.getEntity() instanceof Player player) {
 
             //If player doesn't belong to a controller he can do it
-            if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
-            {
+            if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
                 return;
             }
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
-            if (!controller.playerHasRole(player, CoJoinRole.INVENTORY))
-            {
+            assert controller != null;
+            if (!controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
                 player.setCanPickupItems(false);
                 event.setCancelled(true);
                 return;
-            }
-            else
-            {
+            } else {
                 updateInventorys(controller);
                 return;
             }
@@ -140,21 +119,17 @@ public class CoJoinInventoryHandler implements Listener {
         Player player = event.getPlayer();
 
         //If player doesn't belong to a controller he can do it
-        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
-        {
+        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
             return;
         }
         //Syncronized the inventory when the Player for the inentory change the held item
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
         assert controller != null;
-        if (!controller.playerHasRole(player, CoJoinRole.INVENTORY))
-        {
+        if (!controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
             event.setCancelled(true);
             return;
-        }
-        else
-        {
+        } else {
 
             controller.getPlayersForController().forEach((player1) -> player1.getInventory().setHeldItemSlot(event.getNewSlot()));
 
@@ -168,37 +143,63 @@ public class CoJoinInventoryHandler implements Listener {
         Player player = event.getPlayer();
 
         //If player doesn't belong to a controller he can do it
-        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
-        {
+        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
             return;
         }
         //Syncronized the inventory if  item get damgage
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
 
+        assert controller != null;
+        if (!controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
 
-
-
-        if (!controller.playerHasRole(player, CoJoinRole.INVENTORY))
-        {
-
-            if (event.getItem().getItemMeta() instanceof ArmorMeta)
+/*            if (event.getItem().getItemMeta() instanceof ArmorMeta)
             {
 
                 controller.getPlayerForRole(CoJoinRole.INVENTORY).getInventory().getItem(controller.getPlayerForRole(CoJoinRole.INVENTORY).getInventory().first(event.getItem())).setDurability(
                         (short) (controller.getPlayerForRole(CoJoinRole.INVENTORY).getInventory().getItem(controller.getPlayerForRole(CoJoinRole.INVENTORY).getInventory().first(event.getItem())).getDurability() -1)
                 );
 
-            }
+            }*/
 
             controller.getPlayerInController().get(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().setDurability(
-                    (short) (controller.getPlayerInController().get(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().getDurability() - event.getDamage() - event.getDamage())
+                    (short) (controller.getPlayerInController().get(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().getDurability() - event.getDamage())
 
             );
         }
         updateInventorys(controller);
     }
 
+    @EventHandler
+    public void onEntityShootBow(EntityShootBowEvent event) {
+
+        if (event.getEntity() instanceof Player player) {
+
+            //If player doesn't belong to a controller he can do it
+            if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
+                return;
+            }
+            //Syncronized the inventory if
+            CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
+
+            assert controller != null;
+            if (controller.playerHasRole(player, CoJoinRole.ATTACK)) {
+                Player invPlayer = controller.getPlayerForRole(CoJoinRole.INVENTORY);
+                if (invPlayer.equals(player)) {
+                    return;
+                }
+                ItemStack shootedItem = invPlayer.getInventory().getItem(invPlayer.getInventory().first(Objects.requireNonNull(event.getConsumable())));
+                assert shootedItem != null;
+                if (shootedItem.getAmount() > 0) {
+                    shootedItem.setAmount(shootedItem.getAmount() - 1);
+                }
+
+
+            } else {
+                event.setCancelled(true);
+            }
+        }
+    }
 
     @EventHandler
     public void onPlayerExpChange(PlayerExpChangeEvent event) {
@@ -206,15 +207,14 @@ public class CoJoinInventoryHandler implements Listener {
         Player player = event.getPlayer();
 
         //If player doesn't belong to a controller he can do it
-        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
-        {
+        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
             return;
         }
         //Syncronized the inventory if  item get damgage
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
-        if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK))
-        {
+        assert controller != null;
+        if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK)) {
             controller.getPlayersForController(player).forEach((player1 -> player1.setExp(player.getExp())));
         }
     }
@@ -224,14 +224,13 @@ public class CoJoinInventoryHandler implements Listener {
         Player player = event.getPlayer();
 
         //If player doesn't belong to a controller he can do it
-        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
-        {
+        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
             return;
         }
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
-        if (controller.playerHasRole(player, CoJoinRole.INVENTORY))
-        {
+        assert controller != null;
+        if (controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
             controller.getPlayersForController(player).forEach(player1 -> player1.giveExp(event.getExpToDrop()));
 
         }
@@ -242,14 +241,13 @@ public class CoJoinInventoryHandler implements Listener {
         Player player = event.getPlayer();
 
         //If player doesn't belong to a controller he can do it
-        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
-        {
+        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
             return;
         }
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
-        if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK))
-        {
+        assert controller != null;
+        if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK)) {
             controller.getPlayersForController(player).forEach((player1 -> player1.setLevel(event.getNewLevel())));
         }
     }
@@ -259,14 +257,13 @@ public class CoJoinInventoryHandler implements Listener {
         Player player = event.getPlayer();
 
         //If player doesn't belong to a controller he can do it
-        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null)
-        {
+        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
             return;
         }
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
-        if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK))
-        {
+        assert controller != null;
+        if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK)) {
             controller.getPlayerForRole(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().setAmount(
                     controller.getPlayerForRole(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().getAmount() - 1);
             updateInventorys(controller);
@@ -274,27 +271,22 @@ public class CoJoinInventoryHandler implements Listener {
     }
 
 
-
-    private void updateInventorys(CoJoinController controller)
-    {
+    private void updateInventorys(CoJoinController controller) {
         Set<Player> players = controller.getPlayersForController();
 
         for (Player player : players) {
-            if (controller.playerHasRole(player, CoJoinRole.INVENTORY))
-            {
+            if (controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
                 continue;
             }
             player.getInventory().setContents(controller.getPlayerInController().get(CoJoinRole.INVENTORY).getInventory().getContents());
         }
     }
 
-    private void updateInventorys(CoJoinController controller, Player playerTrigger)
-    {
+    private void updateInventorys(CoJoinController controller, Player playerTrigger) {
         Set<Player> players = controller.getPlayersForController();
 
         for (Player player : players) {
-            if (player.equals(playerTrigger))
-            {
+            if (player.equals(playerTrigger)) {
                 continue;
             }
             player.getInventory().setContents(playerTrigger.getInventory().getContents());
