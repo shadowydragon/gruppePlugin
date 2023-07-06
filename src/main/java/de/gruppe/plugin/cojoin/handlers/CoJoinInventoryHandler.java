@@ -271,6 +271,8 @@ public class CoJoinInventoryHandler implements Listener {
     }
 
 
+
+
     private void updateInventorys(CoJoinController controller) {
         Set<Player> players = controller.getPlayersForController();
 
