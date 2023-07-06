@@ -67,8 +67,6 @@ public class PlayerHandlers implements Listener
                 target.setTarget(walkPlayer);
 
             }
-
-
         }
     }
 }
