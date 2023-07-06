@@ -95,7 +95,8 @@ public final class Main extends JavaPlugin {
             pluginManager.registerEvents(new CoJoinInventoryHandler(), this);
             pluginManager.registerEvents(new CoJoinMovementHandler(), this);
             pluginManager.registerEvents(new CoJoinActionsHandler(), this);
-            pluginManager.registerEvents(new CoJoinHealthAndHunger(),this);
+            pluginManager.registerEvents(new CoJoinSyncHandler(),this);
+            pluginManager.registerEvents(new CoJoinPlayerHandler(),this);
         }
 
         if (getConfig().getBoolean("Manhunt"))

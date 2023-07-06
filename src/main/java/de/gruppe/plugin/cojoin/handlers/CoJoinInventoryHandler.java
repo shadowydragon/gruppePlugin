@@ -13,7 +13,6 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Objects;
 import java.util.Set;
@@ -140,6 +139,8 @@ public class CoJoinInventoryHandler implements Listener {
         }
     }
 
+
+
     @EventHandler
     public void onPlayerItemDamage(PlayerItemDamageEvent event) {
 
@@ -169,6 +170,8 @@ public class CoJoinInventoryHandler implements Listener {
                     (short) (controller.getPlayerInController().get(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().getDurability() - event.getDamage())
 
             );*/
+
+
 
 
             Player invPlayer = controller.getPlayerInController().get(CoJoinRole.INVENTORY);

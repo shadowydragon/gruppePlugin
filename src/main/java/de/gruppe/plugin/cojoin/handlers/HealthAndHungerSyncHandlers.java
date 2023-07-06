@@ -111,6 +111,8 @@ public class HealthAndHungerSyncHandlers implements Listener {
         }
     }
 
+
+
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event)
     {
