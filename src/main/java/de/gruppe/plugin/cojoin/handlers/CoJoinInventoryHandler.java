@@ -155,7 +155,7 @@ public class CoJoinInventoryHandler implements Listener {
         if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
             return;
         }
-        //Synchronized the inventory if  item get damage
+        //Synchronized the inventory if item get damage
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
         assert controller != null;
@@ -241,7 +241,6 @@ public class CoJoinInventoryHandler implements Listener {
         assert controller != null;
         if (controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
             controller.getPlayersForController(player).forEach(player1 -> player1.giveExp(event.getExpToDrop()));
-
         }
     }
 
