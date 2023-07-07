@@ -139,7 +139,7 @@ public class CoJoinCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("createController")) {
                 //Set in the Controller list a new generated controller with the name in args[1]
                 CoJoinControllerPlayerList.addPlayerController(new CoJoinController(args[1]));
-                senderPlayer.sendMessage(ChatColor.GREEN + "Der Character " + ChatColor.DARK_BLUE + args[1] + ChatColor.GREEN + " wurde erstellt.");
+                Bukkit.getServer().broadcastMessage(ChatColor.GREEN + "Der Character " + ChatColor.DARK_BLUE + args[1] + ChatColor.GREEN + " wurde erstellt.");
                 return true;
             }
 

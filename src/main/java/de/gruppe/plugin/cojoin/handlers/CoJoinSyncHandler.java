@@ -162,36 +162,14 @@ public class CoJoinSyncHandler implements Listener {
                 System.out.printf("Potion remove");
                 controller.getPlayersForController(walkPlayer).forEach(player1 -> player1.getActivePotionEffects().forEach(potionEffect -> player1.removePotionEffect(potionEffect.getType())));
                 System.out.println("Potion add");
-                controller.getPlayersForController(walkPlayer).forEach(player1 -> player1.addPotionEffects(walkPlayer.getActivePotionEffects()));
-            }
-        }
-    }
-
-    @EventHandler
-    public void levelChange(PlayerExpChangeEvent event) {
-        Player attackController = Bukkit.getPlayer(Main.attackController);
-        Player breakController = Bukkit.getPlayer(Main.breakController);
-        Player inventoryController = Bukkit.getPlayer(Main.inventoryController);
-        Player movementController = Bukkit.getPlayer(Main.movementController);
-
-        Player eventPlayer = event.getPlayer();
-        if (attackController != null && breakController != null && inventoryController != null && movementController != null) {
-            if (eventPlayer.equals(attackController)) {
-                breakController.giveExp(event.getAmount());
-                inventoryController.giveExp(event.getAmount());
-                movementController.giveExp(event.getAmount());
-            } else if (eventPlayer.equals(breakController)) {
-                attackController.giveExp(event.getAmount());
-                inventoryController.giveExp(event.getAmount());
-                movementController.giveExp(event.getAmount());
-            } else if (eventPlayer.equals(inventoryController)) {
-                attackController.giveExp(event.getAmount());
-                breakController.giveExp(event.getAmount());
-                movementController.giveExp(event.getAmount());
-            } else if (eventPlayer.equals(movementController)) {
-                attackController.giveExp(event.getAmount());
-                breakController.giveExp(event.getAmount());
-                inventoryController.giveExp(event.getAmount());
+                //controller.getPlayersForController(walkPlayer).forEach(player1 -> player1.addPotionEffects(walkPlayer.getActivePotionEffects()));
+                controller.getPlayersForController(walkPlayer)
+                        .forEach(player1 -> walkPlayer.getActivePotionEffects()
+                        .forEach(potionEffect -> player1.addPotionEffect(potionEffect, true)));
+                if (event.getNewEffect() != null){
+                    controller.getPlayersForController(walkPlayer).forEach(player -> player.addPotionEffect(event.getNewEffect()));
+                }
+                controller.getPlayersForController(walkPlayer).forEach((player -> System.out.println(player.getName())));
             }
         }
     }
