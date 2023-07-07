@@ -1,12 +1,10 @@
 //TODO inventory update check (obtain item/ change in inventory)
-//TODO hunger sharing
-//TODO health sharing
-//TODO Player sneak sync
-//TODO Player swimm sync
+//TODO Player sneak sync (!)
+//TODO Player swim sync (!)
 //TODO Boats are buggy
 //TODO block place event check right user don't delete item
-//TODO Player Death event überarbeiten
 //TODO All Players get all sounds (Hurt etc.)
+//TODO Player Death event ueberarbeiten (movement Player gets Exp but does not sync)
 
 
 //TODO Blindfolded Plugin Erweiterung
