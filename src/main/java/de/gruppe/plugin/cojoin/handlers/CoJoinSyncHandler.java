@@ -1,16 +1,13 @@
 package de.gruppe.plugin.cojoin.handlers;
 
-import de.gruppe.plugin.Main;
 import de.gruppe.plugin.cojoin.CoJoinController;
 import de.gruppe.plugin.cojoin.CoJoinControllerPlayerList;
 import de.gruppe.plugin.cojoin.CoJoinRole;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
-import org.bukkit.event.player.PlayerExpChangeEvent;
 
 public class CoJoinSyncHandler implements Listener {
 
@@ -25,14 +22,15 @@ public class CoJoinSyncHandler implements Listener {
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
             assert controller != null;
             if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK)) {
-                updateHunger(controller, player);
+                updateHunger(controller, player, event.getFoodLevel());
             } else {
                 event.setCancelled(true);
             }
 
         }
-
     }
+
+
 
     @EventHandler
     public void onEntityRegainHealth(EntityRegainHealthEvent event) {
@@ -92,7 +90,7 @@ public class CoJoinSyncHandler implements Listener {
     }
 
     @EventHandler
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+    public void onPlayerDamageByEntity(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player player) {
 
             //If player doesn't belong to a controller he can do it
@@ -143,7 +141,17 @@ public class CoJoinSyncHandler implements Listener {
 
         assert controller != null;
         if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK)) {
-            controller.getPlayersForController(player).forEach(player1 -> player1.getInventory().clear());
+
+            controller.getPlayersForController(player).stream().forEach(player1 ->
+            {
+                player1.getInventory().clear();
+                player1.teleport(player.getWorld().getSpawnLocation());
+                player1.setHealth(player1.getMaxHealth());
+                player1.setFoodLevel(20);
+                player1.setSaturation(20);
+                player1.setLevel(0);
+                player1.setExp(0);
+            });
         }
     }
 
@@ -174,12 +182,13 @@ public class CoJoinSyncHandler implements Listener {
         }
     }
 
-    private void updateHunger(CoJoinController controller, Player whoTrigger) {
+    private void updateHunger(CoJoinController controller, Player whoTrigger, int foodLevel) {
         for (Player player : controller.getPlayersForController()) {
             if (player == null || player.equals(whoTrigger)) {
                 continue;
             }
-            player.setFoodLevel(whoTrigger.getFoodLevel());
+            player.setFoodLevel(foodLevel);
+            player.setSaturation(whoTrigger.getSaturation());
         }
     }
 
@@ -188,6 +197,12 @@ public class CoJoinSyncHandler implements Listener {
             if (player == null || player.equals(trigger)) {
                 continue;
             }
+
+            if ((trigger.getHealth() - damage) < 0)
+            {
+                return;
+            }
+
             player.setHealth(trigger.getHealth() - damage);
         }
     }

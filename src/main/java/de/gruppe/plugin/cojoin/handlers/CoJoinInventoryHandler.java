@@ -1,5 +1,6 @@
 package de.gruppe.plugin.cojoin.handlers;
 
+import de.gruppe.plugin.Main;
 import de.gruppe.plugin.cojoin.CoJoinController;
 import de.gruppe.plugin.cojoin.CoJoinControllerPlayerList;
 import de.gruppe.plugin.cojoin.CoJoinRole;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 import java.util.Set;
@@ -82,6 +84,25 @@ public class CoJoinInventoryHandler implements Listener {
     }
 
     @EventHandler
+    public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
+        Player player = event.getPlayer();
+
+        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
+            return;
+        }
+
+        CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
+
+        if (controller != null && !controller.playerHasRole(player, CoJoinRole.PLACE)) {
+            event.setCancelled(true);
+        } else {
+            Player invPlayer = Objects.requireNonNull(controller).getPlayerForRole(CoJoinRole.INVENTORY);
+            invPlayer.getInventory().setItemInMainHand(event.getItemStack());
+            updateInventories(controller);
+        }
+    }
+
+    @EventHandler
     public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
 
         Player player = event.getPlayer();
@@ -114,6 +135,7 @@ public class CoJoinInventoryHandler implements Listener {
             assert controller != null;
             if (!controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
                 player.setCanPickupItems(false);
+                updateInventories(controller);
                 event.setCancelled(true);
                 return;
             } else {
