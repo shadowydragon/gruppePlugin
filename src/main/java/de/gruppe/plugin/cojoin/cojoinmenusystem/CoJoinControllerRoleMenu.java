@@ -29,12 +29,12 @@ public class CoJoinControllerRoleMenu extends AbstractMenu {
     }
 
     public String getMenuName(CoJoinController controller) {
-        return controller.getControlerName();
+        return controller.getControllerName();
     }
 
     @Override
     public int getSlots() {
-        return 9*2;
+        return 9 * 2;
     }
 
     @Override
@@ -42,15 +42,11 @@ public class CoJoinControllerRoleMenu extends AbstractMenu {
 
         ItemStack clickedItem = event.getCurrentItem();
 
-
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromName(Objects.requireNonNull(event.getClickedInventory()).getType().name());
-
 
         assert clickedItem != null;
         assert controller != null;
         controller.addCoJoinPlayerRole((Player) event.getWhoClicked(), CoJoinRole.valueOf(Objects.requireNonNull(clickedItem.getItemMeta()).getDisplayName()));
-
-
 
         event.setCancelled(true);
     }
@@ -74,10 +70,8 @@ public class CoJoinControllerRoleMenu extends AbstractMenu {
 
     }
 
-    public void setMenuItems(CoJoinController controller)
-    {
+    public void setMenuItems(CoJoinController controller) {
         if (controller != null) {
-
 
             ItemStack roleIcons = new ItemStack(Material.BARRIER);
             ItemMeta roleIconMeta = roleIcons.getItemMeta();
@@ -85,8 +79,7 @@ public class CoJoinControllerRoleMenu extends AbstractMenu {
 
             Inventory inventory = getInventory();
 
-            controller.getPlayerInController().forEach((role, player) ->
-            {
+            controller.getPlayerInController().forEach((role, player) -> {
                 roleIcons.setType(Material.EMERALD);
                 assert roleIconMeta != null;
                 roleIconMeta.setDisplayName(role.name());
@@ -104,7 +97,6 @@ public class CoJoinControllerRoleMenu extends AbstractMenu {
 
     @Override
     public void setMenuItems(Player player) {
-
 
     }
 }

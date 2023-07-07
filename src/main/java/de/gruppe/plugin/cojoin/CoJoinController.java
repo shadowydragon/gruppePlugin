@@ -8,10 +8,10 @@ import java.util.*;
 public class CoJoinController {
 
     private final HashMap<CoJoinRole, Player> playerInController = new HashMap<>();
-    private final String controlerName;
+    private final String controllerName;
 
-    public CoJoinController(String controlerName) {
-        this.controlerName = controlerName;
+    public CoJoinController(String controllerName) {
+        this.controllerName = controllerName;
         for (CoJoinRole value : CoJoinRole.values()) {
             playerInController.put(value, null);
         }
@@ -21,93 +21,76 @@ public class CoJoinController {
         return playerInController;
     }
 
-    public void addCoJoinPlayerRole(Player player, CoJoinRole role)
-    {
+    public void addCoJoinPlayerRole(Player player, CoJoinRole role) {
         playerInController.put(role, player);
 
         //Set that the player cant see the other player for this controller
-        if (player == null)
-        {
+        if (player == null) {
             return;
         }
         Util.hidePlayersFromPlayer(player, getPlayersForController());
 
         //Check if player has the inventory role for pickup items
-        if (role != CoJoinRole.INVENTORY)
-        {
-            if (playerHasRole(player, CoJoinRole.INVENTORY))
-            {
+        if (role != CoJoinRole.INVENTORY) {
+            if (playerHasRole(player, CoJoinRole.INVENTORY)) {
                 player.setCanPickupItems(true);
                 return;
             }
             player.setCanPickupItems(false);
-        }
-        else
-        {
+        } else {
             player.setCanPickupItems(true);
         }
     }
 
-    public String getControlerName() {
-        return controlerName;
+    public String getControllerName() {
+        return controllerName;
     }
 
     //you get all roles that not set for this controller
     //if its full then you get null
-    public Set<CoJoinRole> getEmptyRoles()
-    {
+    public Set<CoJoinRole> getEmptyRoles() {
         Set<CoJoinRole> emptyRoles = new HashSet<>();
 
         for (CoJoinRole value : CoJoinRole.values()) {
-            if (playerInController.get(value) == null)
-            {
-                if (CoJoinRole.COJOINROLE != value)
-                {
+            if (playerInController.get(value) == null) {
+                if (CoJoinRole.COJOINROLE != value) {
                     emptyRoles.add(value);
                 }
 
             }
         }
-        if (emptyRoles.isEmpty())
-        {
+        if (emptyRoles.isEmpty()) {
             return null;
         }
         return emptyRoles;
 
     }
 
-    public Player getPlayerForRole(CoJoinRole role)
-    {
+    public Player getPlayerForRole(CoJoinRole role) {
         return playerInController.get(role);
     }
 
-
     //Returns a list for each player and the role he has as string
-    public List<String> getSetRoleAndPlayer()
-    {
+    public List<String> getSetRoleAndPlayer() {
         List<String> buf = new LinkedList<>();
 
         for (CoJoinRole value : CoJoinRole.values()) {
 
-            if (playerInController.get(value) != null)
-            {
+            if (playerInController.get(value) != null) {
                 buf.add(value.name() + ": " + playerInController.get(value).getName());
             }
         }
-        if (buf.isEmpty())
-        {
+        if (buf.isEmpty()) {
             return null;
         }
         return buf;
     }
 
     //Returns a set for all players who have a role for this controller
-    public Set<Player> getPlayersForController()
-    {
+    public Set<Player> getPlayersForController() {
         Set<Player> playerSet = new HashSet<>();
         for (CoJoinRole value : CoJoinRole.values()) {
-            if (playerInController.get(value) == null)
-            {
+            if (playerInController.get(value) == null) {
                 continue;
             }
             playerSet.add(playerInController.get(value));
@@ -116,12 +99,10 @@ public class CoJoinController {
         return playerSet;
     }
 
-    public Set<UUID> getPlayersUUIDForController()
-    {
+    public Set<UUID> getPlayersUUIDForController() {
         Set<UUID> playerSet = new HashSet<>();
         for (CoJoinRole value : CoJoinRole.values()) {
-            if (playerInController.get(value) == null)
-            {
+            if (playerInController.get(value) == null) {
                 continue;
             }
             playerSet.add(playerInController.get(value).getUniqueId());
@@ -131,12 +112,10 @@ public class CoJoinController {
     }
 
     //Returns a player list without the given player
-    public Set<Player> getPlayersForController(Player player)
-    {
+    public Set<Player> getPlayersForController(Player player) {
         Set<Player> playerSet = new HashSet<>();
         for (CoJoinRole value : CoJoinRole.values()) {
-            if (playerInController.get(value) == null || playerInController.get(value).equals(player))
-            {
+            if (playerInController.get(value) == null || playerInController.get(value).equals(player)) {
                 continue;
             }
 
@@ -147,18 +126,15 @@ public class CoJoinController {
     }
 
     //Returns if a player belongs to this controller
-    public boolean playerIsInController(Player player)
-    {
+    public boolean playerIsInController(Player player) {
         return playerInController.containsValue(player);
     }
 
-    public Set<CoJoinRole> getRolesFromPlayer(Player player)
-    {
+    public Set<CoJoinRole> getRolesFromPlayer(Player player) {
         Set<CoJoinRole> bufRoles = new HashSet<>();
 
-        this.playerInController.forEach((role, player1) ->  {
-            if(player1 != null && player1.getUniqueId().equals(player.getUniqueId()))
-            {
+        this.playerInController.forEach((role, player1) -> {
+            if (player1 != null && player1.getUniqueId().equals(player.getUniqueId())) {
                 bufRoles.add(role);
             }
         });
@@ -167,8 +143,7 @@ public class CoJoinController {
     }
 
     //Check if a player has a specific role in the Controller
-    public boolean playerHasRole(Player player, CoJoinRole role)
-    {
+    public boolean playerHasRole(Player player, CoJoinRole role) {
 
         return (playerInController.get(role) != null) && playerInController.get(role).equals(player);
     }

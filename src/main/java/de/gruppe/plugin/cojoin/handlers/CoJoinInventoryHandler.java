@@ -8,7 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.inventory.*;
+import org.bukkit.event.inventory.FurnaceExtractEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
@@ -40,7 +41,7 @@ public class CoJoinInventoryHandler implements Listener {
                 }
                 else
                 {
-                    updateInventorys(controller);
+                    updateInventories(controller);
                     return;
                 }
             }
@@ -65,7 +66,7 @@ public class CoJoinInventoryHandler implements Listener {
             if (!controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
                 event.setCancelled(true);
             } else {
-                updateInventorys(controller);
+                updateInventories(controller);
                 return;
             }
         }
@@ -88,7 +89,7 @@ public class CoJoinInventoryHandler implements Listener {
         if (!controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
             event.setCancelled(true);
         } else {
-            updateInventorys(controller);
+            updateInventories(controller);
         }
     }
 
@@ -108,11 +109,10 @@ public class CoJoinInventoryHandler implements Listener {
                 event.setCancelled(true);
                 return;
             } else {
-                updateInventorys(controller);
+                updateInventories(controller);
                 return;
             }
         }
-
 
     }
 
@@ -124,7 +124,7 @@ public class CoJoinInventoryHandler implements Listener {
         if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
             return;
         }
-        //Syncronized the inventory when the Player for the inentory change the held item
+        //Synchronized the inventory when the Player for the inventory change the held item
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
         assert controller != null;
@@ -135,11 +135,9 @@ public class CoJoinInventoryHandler implements Listener {
 
             controller.getPlayersForController().forEach((player1) -> player1.getInventory().setHeldItemSlot(event.getNewSlot()));
 
-            updateInventorys(controller);
+            updateInventories(controller);
         }
     }
-
-
 
     @EventHandler
     public void onPlayerItemDamage(PlayerItemDamageEvent event) {
@@ -150,9 +148,8 @@ public class CoJoinInventoryHandler implements Listener {
         if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
             return;
         }
-        //Syncronized the inventory if  item get damgage
+        //Synchronized the inventory if  item get damage
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
-
 
         assert controller != null;
         if (!controller.playerHasRole(player, CoJoinRole.INVENTORY)) {
@@ -171,41 +168,32 @@ public class CoJoinInventoryHandler implements Listener {
 
             );*/
 
-
-
-
             Player invPlayer = controller.getPlayerInController().get(CoJoinRole.INVENTORY);
 
             //ItemMeta  =  invPlayer.getInventory().getItemInMainHand().getItemMeta();
 
-            if (event.getItem().getItemMeta() instanceof ArmorMeta)
-            {
+            if (event.getItem().getItemMeta() instanceof ArmorMeta) {
 
-                ItemStack[] armor =  invPlayer.getInventory().getArmorContents();
+                ItemStack[] armor = invPlayer.getInventory().getArmorContents();
                 for (ItemStack itemStack : armor) {
-                    if (itemStack.getType().equals(event.getItem().getType()))
-                    {
-                        Damageable armorMeta =  (Damageable) itemStack.getItemMeta();
-                        armorMeta.setDamage(armorMeta.getDamage() -1);
+                    if (itemStack.getType().equals(event.getItem().getType())) {
+                        Damageable armorMeta = (Damageable) itemStack.getItemMeta();
+                        Objects.requireNonNull(armorMeta).setDamage(armorMeta.getDamage() - 1);
                         itemStack.setItemMeta(armorMeta);
                     }
                 }
 
-
                 return;
             }
 
-
-
             Damageable damageMeta = (Damageable) invPlayer.getInventory().getItemInMainHand().getItemMeta();
 
-            damageMeta.setDamage(damageMeta.getDamage() - 1);
+            Objects.requireNonNull(damageMeta).setDamage(damageMeta.getDamage() - 1);
 
             invPlayer.getInventory().getItemInMainHand().setItemMeta(damageMeta);
 
-
         }
-        updateInventorys(controller);
+        updateInventories(controller);
     }
 
     @EventHandler
@@ -217,7 +205,7 @@ public class CoJoinInventoryHandler implements Listener {
             if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
                 return;
             }
-            //Syncronized the inventory if
+            //Synchronized the inventory if
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
             assert controller != null;
@@ -226,12 +214,11 @@ public class CoJoinInventoryHandler implements Listener {
                 if (invPlayer.equals(player)) {
                     return;
                 }
-                ItemStack shootedItem = invPlayer.getInventory().getItem(invPlayer.getInventory().first(Objects.requireNonNull(event.getConsumable())));
-                assert shootedItem != null;
-                if (shootedItem.getAmount() > 0) {
-                    shootedItem.setAmount(shootedItem.getAmount() - 1);
+                ItemStack shotItem = invPlayer.getInventory().getItem(invPlayer.getInventory().first(Objects.requireNonNull(event.getConsumable())));
+                assert shotItem != null;
+                if (shotItem.getAmount() > 0) {
+                    shotItem.setAmount(shotItem.getAmount() - 1);
                 }
-
 
             } else {
                 event.setCancelled(true);
@@ -248,7 +235,7 @@ public class CoJoinInventoryHandler implements Listener {
         if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
             return;
         }
-        //Syncronized the inventory if  item get damgage
+        //Synchronized the inventory if  item get damage
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
         assert controller != null;
@@ -304,14 +291,11 @@ public class CoJoinInventoryHandler implements Listener {
         if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK)) {
             controller.getPlayerForRole(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().setAmount(
                     controller.getPlayerForRole(CoJoinRole.INVENTORY).getInventory().getItemInMainHand().getAmount() - 1);
-            updateInventorys(controller);
+            updateInventories(controller);
         }
     }
 
-
-
-
-    private void updateInventorys(CoJoinController controller) {
+    private void updateInventories(CoJoinController controller) {
         Set<Player> players = controller.getPlayersForController();
 
         for (Player player : players) {
@@ -322,7 +306,7 @@ public class CoJoinInventoryHandler implements Listener {
         }
     }
 
-    private void updateInventorys(CoJoinController controller, Player playerTrigger) {
+    private void updateInventories(CoJoinController controller, Player playerTrigger) {
         Set<Player> players = controller.getPlayersForController();
 
         for (Player player : players) {

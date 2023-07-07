@@ -9,10 +9,7 @@ public class CollidableCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (sender instanceof Player)
-        {
-            Player player = (Player) sender;
-
+        if (sender instanceof Player player) {
             player.setCollidable(!player.isCollidable());
         }
         return false;

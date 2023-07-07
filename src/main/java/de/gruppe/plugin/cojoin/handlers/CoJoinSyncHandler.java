@@ -49,20 +49,13 @@ public class CoJoinSyncHandler implements Listener {
                 updateHealth(controller, player, 0);
             }
 
-
         }
     }
-
-
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
 
         if (event.getEntity() instanceof Player player) {
-
-
-
-
 
             //If player doesn't belong to a controller he can do it
             if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
@@ -82,9 +75,7 @@ public class CoJoinSyncHandler implements Listener {
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
 
-
-        if (event.getHitEntity() != null && event.getHitEntity() instanceof Player hitPlayer)
-        {
+        if (event.getHitEntity() != null && event.getHitEntity() instanceof Player hitPlayer) {
             //System.out.println("hit");
             //hitPlayer.sendMessage("you are hit");
             //If player doesn't belong to a controller he can do it
@@ -93,9 +84,7 @@ public class CoJoinSyncHandler implements Listener {
             }
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(hitPlayer);
 
-
-            if (!controller.playerHasRole(hitPlayer, CoJoinRole.MOVEMENT_WALK))
-            {
+            if (controller != null && !controller.playerHasRole(hitPlayer, CoJoinRole.MOVEMENT_WALK)) {
                 //System.out.println("cancel");
                 event.setCancelled(true);
             }
@@ -122,22 +111,19 @@ public class CoJoinSyncHandler implements Listener {
 
     @EventHandler
     public void onEntityDamageByPlayer(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player player)
-        {
+        if (event.getDamager() instanceof Player player) {
 
             if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
                 return;
             }
 
-            if (event.getEntity() instanceof Mob target)
-            {
+            if (event.getEntity() instanceof Mob target) {
                 CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
                 assert controller != null;
                 Player walkPlayer = controller.getPlayerForRole(CoJoinRole.MOVEMENT_WALK);
 
-                if (walkPlayer.equals(player))
-                {
+                if (walkPlayer.equals(player)) {
                     return;
                 }
                 target.setTarget(walkPlayer);
@@ -155,7 +141,6 @@ public class CoJoinSyncHandler implements Listener {
         }
         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
 
-
         assert controller != null;
         if (controller.playerHasRole(player, CoJoinRole.MOVEMENT_WALK)) {
             controller.getPlayersForController(player).forEach(player1 -> player1.getInventory().clear());
@@ -171,7 +156,6 @@ public class CoJoinSyncHandler implements Listener {
             }
             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(walkPlayer);
 
-
             assert controller != null;
             if (controller.playerHasRole(walkPlayer, CoJoinRole.MOVEMENT_WALK)) {
                 controller.getPlayersForController(walkPlayer).forEach(player1 -> player1.getActivePotionEffects().forEach(potionEffect -> player1.removePotionEffect(potionEffect.getType())));
@@ -181,34 +165,31 @@ public class CoJoinSyncHandler implements Listener {
     }
 
     @EventHandler
-    public void levelChange(PlayerExpChangeEvent event)
-    {
+    public void levelChange(PlayerExpChangeEvent event) {
         Player attackController = Bukkit.getPlayer(Main.attackController);
         Player breakController = Bukkit.getPlayer(Main.breakController);
         Player inventoryController = Bukkit.getPlayer(Main.inventoryController);
         Player movementController = Bukkit.getPlayer(Main.movementController);
 
         Player eventPlayer = event.getPlayer();
-        if (eventPlayer.equals(attackController))
-        {
-            breakController.giveExp(event.getAmount());
-            inventoryController.giveExp(event.getAmount());
-            movementController.giveExp(event.getAmount());
-        }else if (eventPlayer.equals(breakController))
-        {
-            attackController.giveExp(event.getAmount());
-            inventoryController.giveExp(event.getAmount());
-            movementController.giveExp(event.getAmount());
-        }else if (eventPlayer.equals(inventoryController))
-        {
-            attackController.giveExp(event.getAmount());
-            breakController.giveExp(event.getAmount());
-            movementController.giveExp(event.getAmount());
-        }else if (eventPlayer.equals(movementController))
-        {
-            attackController.giveExp(event.getAmount());
-            breakController.giveExp(event.getAmount());
-            inventoryController.giveExp(event.getAmount());
+        if (attackController != null && breakController != null && inventoryController != null && movementController != null) {
+            if (eventPlayer.equals(attackController)) {
+                breakController.giveExp(event.getAmount());
+                inventoryController.giveExp(event.getAmount());
+                movementController.giveExp(event.getAmount());
+            } else if (eventPlayer.equals(breakController)) {
+                attackController.giveExp(event.getAmount());
+                inventoryController.giveExp(event.getAmount());
+                movementController.giveExp(event.getAmount());
+            } else if (eventPlayer.equals(inventoryController)) {
+                attackController.giveExp(event.getAmount());
+                breakController.giveExp(event.getAmount());
+                movementController.giveExp(event.getAmount());
+            } else if (eventPlayer.equals(movementController)) {
+                attackController.giveExp(event.getAmount());
+                breakController.giveExp(event.getAmount());
+                inventoryController.giveExp(event.getAmount());
+            }
         }
     }
 

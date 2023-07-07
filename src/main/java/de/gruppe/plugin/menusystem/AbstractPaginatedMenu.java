@@ -6,22 +6,24 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public abstract class AbstractPaginatedMenu extends AbstractMenu{
+import java.util.Objects;
+
+public abstract class AbstractPaginatedMenu extends AbstractMenu {
     private int page = 0;
 
     //28 empty slots per page
     private int maxItemOnPage = 28;
 
     private int index = 0;
+
     public AbstractPaginatedMenu(PlayerMenuUtility playerMenuUtility) {
         super(playerMenuUtility);
     }
 
-    public void addMenuBorder()
-    {
+    public void addMenuBorder() {
         ItemStack goLeft = new ItemStack(Material.ARROW, 1);
         ItemMeta goLeftMeta = goLeft.getItemMeta();
-        goLeftMeta.setDisplayName(ChatColor.GREEN + "Previous Page");
+        Objects.requireNonNull(goLeftMeta).setDisplayName(ChatColor.GREEN + "Previous Page");
         goLeft.setItemMeta(goLeftMeta);
 
         ItemStack goRight = new ItemStack(Material.ARROW, 1);

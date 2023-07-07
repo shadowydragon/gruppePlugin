@@ -13,12 +13,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Objects;
 
-public class MainMenu extends AbstractMenu{
+public class MainMenu extends AbstractMenu {
 
-    private final String manHuntIconDisplayName = ChatColor.RED +"Man Hunt Menu";
+    private final String manHuntIconDisplayName = ChatColor.RED + "Man Hunt Menu";
     private final Material manHuntIconMaterial = Material.COMPASS;
-    private final String coJoinIconDisplayName = ChatColor.GREEN +"Cojoin Menu";
+    private final String coJoinIconDisplayName = ChatColor.GREEN + "Cojoin Menu";
     private final Material coJoinIconMaterial = Material.DIAMOND;
+
     public MainMenu(PlayerMenuUtility playerMenuUtility) {
         super(playerMenuUtility);
     }
@@ -30,19 +31,16 @@ public class MainMenu extends AbstractMenu{
 
     @Override
     public int getSlots() {
-        return 9*5;
+        return 9 * 5;
     }
 
     @Override
     public void handleMenu(InventoryClickEvent event) {
 
-        if (Objects.requireNonNull(Objects.requireNonNull(event.getCurrentItem()).getItemMeta()).getDisplayName().equals(manHuntIconDisplayName))
-        {
+        if (Objects.requireNonNull(Objects.requireNonNull(event.getCurrentItem()).getItemMeta()).getDisplayName().equals(manHuntIconDisplayName)) {
             ManhuntMainMenu manhuntMainMenu = new ManhuntMainMenu(Main.getPlayerMenuUtility((Player) event.getWhoClicked()));
             manhuntMainMenu.open(((Player) event.getWhoClicked()).getPlayer());
-        }
-        else if (event.getCurrentItem().getItemMeta().getDisplayName().equals(coJoinIconDisplayName))
-        {
+        } else if (event.getCurrentItem().getItemMeta().getDisplayName().equals(coJoinIconDisplayName)) {
             CoJoinMainMenu coJoinMainMenu = new CoJoinMainMenu(Main.getPlayerMenuUtility((Player) event.getWhoClicked()));
             coJoinMainMenu.open();
         }
@@ -61,13 +59,11 @@ public class MainMenu extends AbstractMenu{
         manHuntIconMeta.setDisplayName(manHuntIconDisplayName);
         manHuntIcon.setItemMeta(manHuntIconMeta);
 
-
         ItemStack coJoinIcon = new ItemStack(coJoinIconMaterial);
         ItemMeta coJoinIconMeta = coJoinIcon.getItemMeta();
         assert coJoinIconMeta != null;
         coJoinIconMeta.setDisplayName(coJoinIconDisplayName);
         coJoinIcon.setItemMeta(coJoinIconMeta);
-
 
         //Fill the Items into the menu
         Inventory menuInventory = getInventory();

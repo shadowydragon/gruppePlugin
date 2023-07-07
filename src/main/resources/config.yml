@@ -8,8 +8,8 @@ Conjoin: true
 Multiverse: true
 
 
-#Set if for the manhunt frindly fire ist actice or inactive Default: false
+#Set if for the manhunt friendly fire ist active or inactive Default: false
 ManhuntFriendlyFire: false
 
-#if true only the person who has the inventory role can acces the inventory
+#if true only the person who has the inventory role can access the inventory
 CojoinAccessInventory: true

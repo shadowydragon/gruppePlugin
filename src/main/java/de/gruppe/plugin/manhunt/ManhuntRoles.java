@@ -2,8 +2,7 @@ package de.gruppe.plugin.manhunt;
 
 public enum ManhuntRoles {
 
-
-    MANHUNTROLE("manhuntrole"),
+    MANHUNTROLLE("manhuntrolle"),
     SPEEDRUNNER("SpeedRunner"),
     HUNTER("Hunter"),
     NONE("None");
@@ -11,6 +10,5 @@ public enum ManhuntRoles {
     ManhuntRoles(String name) {
 
     }
-
 
 }

@@ -1,40 +1,30 @@
 package de.gruppe.plugin.manhunt;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
+import java.util.Objects;
 
 public class ManhuntUtil {
 
     public final static String COMPASSNETHER = ChatColor.RED + "Nether Tracker";
     public final static String COMPASSWORLD = ChatColor.RED + "Overworld Tracker";
 
-    public static boolean checkCompassDisplayname(ItemStack compass)
-    {
+    public static boolean checkCompassDisplayname(ItemStack compass) {
 
-        if (compass.getType().equals(Material.COMPASS))
-        {
-            String displayname = compass.getItemMeta().getDisplayName();
+        if (compass.getType().equals(Material.COMPASS)) {
+            String displayname = Objects.requireNonNull(compass.getItemMeta()).getDisplayName();
 
-            if (displayname.equalsIgnoreCase(COMPASSWORLD))
-            {
+            if (displayname.equalsIgnoreCase(COMPASSWORLD)) {
                 return true;
-            }
-            else if (displayname.equalsIgnoreCase(COMPASSNETHER))
-            {
+            } else if (displayname.equalsIgnoreCase(COMPASSNETHER)) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
         return false;
     }
-
 
 }

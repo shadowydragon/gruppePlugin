@@ -11,34 +11,25 @@ public class SetNameCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (command.getName().equals("setName"))
-        {
-            if (args.length == 0)
-            {
+        if (command.getName().equals("setName")) {
+            if (args.length == 0) {
                 sender.sendMessage(ChatColor.RED + "Invalid Arguments");
-            } else if (args.length == 1)
-            {
-                if (sender instanceof Player)
-                {
-                    Player player = (Player) sender;
+            } else if (args.length == 1) {
+                if (sender instanceof Player player) {
                     //player.setDisplayName(ChatColor.RED + args[0]);
                     player.setPlayerListName(ChatColor.RED + args[0]);
                     //player.setCustomName(args[0]);
                 }
-            } else if (args.length == 2)
-            {
+            } else if (args.length == 2) {
                 try {
-                    Player player = (Player) Bukkit.getPlayer(args[0]);
+                    Player player = Bukkit.getPlayer(args[0]);
 
-                    if (player != null)
-                    {
+                    if (player != null) {
                         player.setDisplayName(args[1]);
                         player.setPlayerListName(args[1]);
                         player.setCustomName(args[1]);
                     }
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     System.out.println("Invalid argument");
                     sender.sendMessage("Invalid player");
                 }

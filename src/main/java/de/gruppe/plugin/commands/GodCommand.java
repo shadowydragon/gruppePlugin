@@ -10,12 +10,10 @@ public class GodCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (sender instanceof Player)
-        {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
 
             player.setInvulnerable(!player.isInvulnerable());
-            player.sendMessage(ChatColor.GOLD + "Godmode:" + (player.isInvulnerable()? ChatColor.GREEN + "Enabled": ChatColor.RED + "Disabled"));
+            player.sendMessage(ChatColor.GOLD + "Godmode:" + (player.isInvulnerable() ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"));
         }
 
         return false;

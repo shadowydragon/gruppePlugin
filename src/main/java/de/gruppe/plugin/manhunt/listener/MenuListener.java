@@ -7,23 +7,20 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.InventoryHolder;
 
+import java.util.Objects;
+
 public class MenuListener implements Listener {
 
     @EventHandler
-    public void onMenuClick(InventoryClickEvent event)
-    {
-        if (event.getWhoClicked() instanceof Player)
-        {
-            if (event.getCurrentItem() == null)
-            {
+    public void onMenuClick(InventoryClickEvent event) {
+        if (event.getWhoClicked() instanceof Player) {
+            if (event.getCurrentItem() == null) {
                 return;
             }
 
-            InventoryHolder inventoryHolder = event.getClickedInventory().getHolder();
+            InventoryHolder inventoryHolder = Objects.requireNonNull(event.getClickedInventory()).getHolder();
 
-            if (inventoryHolder instanceof AbstractMenu)
-            {
-                AbstractMenu menu = (AbstractMenu) inventoryHolder;
+            if (inventoryHolder instanceof AbstractMenu menu) {
                 menu.handleMenu(event);
                 event.setCancelled(true);
             }

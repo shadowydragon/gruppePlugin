@@ -26,8 +26,7 @@ public abstract class AbstractMenu implements InventoryHolder {
 
     public abstract void setMenuItems(Player player);
 
-    public void open()
-    {
+    public void open() {
         inventory = Bukkit.createInventory(this, getSlots(), getMenuName());
 
         this.setMenuItems();
@@ -35,9 +34,8 @@ public abstract class AbstractMenu implements InventoryHolder {
         playerMenuUtility.getOwner().openInventory(inventory);
     }
 
-    public void open(Player player)
-    {
-        inventory= Bukkit.createInventory(this, getSlots(), getMenuName());
+    public void open(Player player) {
+        inventory = Bukkit.createInventory(this, getSlots(), getMenuName());
 
         this.setMenuItems(player);
 
@@ -49,11 +47,11 @@ public abstract class AbstractMenu implements InventoryHolder {
         return inventory;
     }
 
-    public PlayerMenuUtility getPlayerMenuUtility() {
-        return playerMenuUtility;
-    }
-
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
+    }
+
+    public PlayerMenuUtility getPlayerMenuUtility() {
+        return playerMenuUtility;
     }
 }

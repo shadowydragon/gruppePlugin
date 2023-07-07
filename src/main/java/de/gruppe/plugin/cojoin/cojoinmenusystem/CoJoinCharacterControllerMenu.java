@@ -28,7 +28,7 @@ public class CoJoinCharacterControllerMenu extends AbstractMenu {
 
     @Override
     public int getSlots() {
-        return 9*3;
+        return 9 * 3;
     }
 
     @Override
@@ -41,7 +41,6 @@ public class CoJoinCharacterControllerMenu extends AbstractMenu {
         assert clickedItem != null;
         coJoinControllerRoleMenu.open(CoJoinControllerPlayerList.getControllerFromName(Objects.requireNonNull(clickedItem.getItemMeta()).getDisplayName()));
 
-
         event.setCancelled(true);
     }
 
@@ -52,18 +51,15 @@ public class CoJoinCharacterControllerMenu extends AbstractMenu {
 
         Inventory menu = getInventory();
 
-        if (!CoJoinControllerPlayerList.getCoJoinPlayerControllers().isEmpty())
-        {
+        if (!CoJoinControllerPlayerList.getCoJoinPlayerControllers().isEmpty()) {
             for (CoJoinController coJoinPlayerController : CoJoinControllerPlayerList.getCoJoinPlayerControllers()) {
                 assert controllerMeta != null;
-                controllerMeta.setDisplayName(coJoinPlayerController.getControlerName());
+                controllerMeta.setDisplayName(coJoinPlayerController.getControllerName());
                 controller.setItemMeta(controllerMeta);
 
                 menu.addItem(controller);
             }
         }
-
-
 
     }
 

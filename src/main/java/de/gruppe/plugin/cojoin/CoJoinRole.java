@@ -1,7 +1,6 @@
 package de.gruppe.plugin.cojoin;
 
-public enum CoJoinRole
-{
+public enum CoJoinRole {
     COJOINROLE,
     MOVEMENT_WALK,
     MOVEMENT_LOOKDIRECTION,
@@ -9,5 +8,4 @@ public enum CoJoinRole
     ATTACK,
     INVENTORY,
     PLACE
-    ;
 }

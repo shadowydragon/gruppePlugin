@@ -16,8 +16,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
     public ManhuntFollowSelectMenu(PlayerMenuUtility playerMenuUtility) {
@@ -41,21 +43,21 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
         if (event.getWhoClicked() instanceof Player) {
             player = (Player) event.getWhoClicked();
 
-            if (event.getCurrentItem().getType() == Material.DIAMOND_SWORD) {
-                String followPlayerName = event.getCurrentItem().getItemMeta().getDisplayName();
+            if (Objects.requireNonNull(event.getCurrentItem()).getType() == Material.DIAMOND_SWORD) {
+                String followPlayerName = Objects.requireNonNull(event.getCurrentItem().getItemMeta()).getDisplayName();
 
                 Player followPlayer = Bukkit.getPlayer(followPlayerName);
                 Player userPlayer = (Player) event.getWhoClicked();
 
-                if (CompassHandler.containsUsertTarget(userPlayer.getUniqueId())) {
-                    CompassHandler.setUserTarget(userPlayer.getUniqueId(), followPlayer.getUniqueId());
+                if (CompassHandler.containsUserTarget(userPlayer.getUniqueId())) {
+                    CompassHandler.setUserTarget(userPlayer.getUniqueId(), Objects.requireNonNull(followPlayer).getUniqueId());
                 } else {
-                    CompassHandler.addUserTarget(userPlayer.getUniqueId(), followPlayer.getUniqueId());
+                    CompassHandler.addUserTarget(userPlayer.getUniqueId(), Objects.requireNonNull(followPlayer).getUniqueId());
                 }
                 event.setCancelled(true);
                 userPlayer.closeInventory();
             } else {
-                String itemDisplayName = event.getCurrentItem().getItemMeta().getDisplayName();
+                String itemDisplayName = Objects.requireNonNull(event.getCurrentItem().getItemMeta()).getDisplayName();
 
                 if (itemDisplayName.equalsIgnoreCase(ChatColor.GREEN + "Previous Page")) {
                     event.setCancelled(true);
@@ -82,8 +84,7 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
 
         ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
 
-        if(players.isEmpty() || players == null)
-        {
+        if (players.isEmpty() || players == null) {
             return;
         }
 
@@ -91,32 +92,24 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
 
             setIndex(getMaxItemOnPage() * getPage() + i);
 
-            if (getIndex() >= players.size())
-            {
+            if (getIndex() >= players.size()) {
                 break;
             }
-            if (players.get(getIndex()) != null)
-            {
+            if (players.get(getIndex()) != null) {
                 ItemStack playerHead = new ItemStack(Material.DIAMOND_SWORD, 1);
                 ItemMeta playerHeadMeta = playerHead.getItemMeta();
-                playerHeadMeta.setDisplayName(players.get(getIndex()).getName());
+                Objects.requireNonNull(playerHeadMeta).setDisplayName(players.get(getIndex()).getName());
 
                 List<String> playerHeadLore = new LinkedList<>();
-                if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("hunter"))
-                {
-                    playerHeadLore.add("Rolle: " + ChatColor.RED + "" + ChatColor.BOLD + "HUNTER");
-                }
-                else if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("speedrunner"))
-                {
-                    playerHeadLore.add("Rolle: " + ChatColor.GREEN + "" + ChatColor.BOLD + "SPEEDRUNNER");
-                }
-                else if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("none"))
-                {
+                if (Objects.requireNonNull(players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLLE.name().toLowerCase()), PersistentDataType.STRING)).equalsIgnoreCase("hunter")) {
+                    playerHeadLore.add("Rolle: " + ChatColor.RED + " " + ChatColor.BOLD + "HUNTER");
+                } else if (Objects.requireNonNull(players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLLE.name().toLowerCase()), PersistentDataType.STRING)).equalsIgnoreCase("speedrunner")) {
+                    playerHeadLore.add("Rolle: " + ChatColor.GREEN + " " + ChatColor.BOLD + "SPEEDRUNNER");
+                } else if (Objects.requireNonNull(players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLLE.name().toLowerCase()), PersistentDataType.STRING)).equalsIgnoreCase("none")) {
                     playerHeadLore.add("Rolle: " + ChatColor.BLUE + "NONE");
                 }
 
                 playerHeadMeta.setLore(playerHeadLore);
-
 
                 playerHead.setItemMeta(playerHeadMeta);
 
@@ -136,8 +129,7 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
 
         ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
 
-        if(players.isEmpty() || players == null)
-        {
+        if (players.isEmpty() || players == null) {
             return;
         }
 
@@ -145,27 +137,20 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
 
             setIndex(getMaxItemOnPage() * getPage() + i);
 
-            if (getIndex() >= players.size())
-            {
+            if (getIndex() >= players.size()) {
                 break;
             }
-            if (players.get(getIndex()) != null)
-            {
+            if (players.get(getIndex()) != null) {
                 ItemStack playerHead = new ItemStack(Material.DIAMOND_SWORD, 1);
                 ItemMeta playerHeadMeta = playerHead.getItemMeta();
-                playerHeadMeta.setDisplayName(players.get(getIndex()).getName());
+                Objects.requireNonNull(playerHeadMeta).setDisplayName(players.get(getIndex()).getName());
 
                 List<String> playerHeadLore = new LinkedList<>();
-                if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("hunter"))
-                {
-                    playerHeadLore.add("Manhuntrolle: " + ChatColor.RED + "" + ChatColor.BOLD + "HUNTER");
-                }
-                else if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("speedrunner"))
-                {
-                    playerHeadLore.add("Manhuntrolle: " + ChatColor.GREEN + "" + ChatColor.BOLD + "SPEEDRUNNER");
-                }
-                else if (players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING).equalsIgnoreCase("none"))
-                {
+                if (Objects.requireNonNull(players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLLE.name().toLowerCase()), PersistentDataType.STRING)).equalsIgnoreCase("hunter")) {
+                    playerHeadLore.add("Manhuntrolle: " + ChatColor.RED + " " + ChatColor.BOLD + "HUNTER");
+                } else if (Objects.requireNonNull(players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLLE.name().toLowerCase()), PersistentDataType.STRING)).equalsIgnoreCase("speedrunner")) {
+                    playerHeadLore.add("Manhuntrolle: " + ChatColor.GREEN + " " + ChatColor.BOLD + "SPEEDRUNNER");
+                } else if (Objects.requireNonNull(players.get(getIndex()).getPersistentDataContainer().get(new NamespacedKey(players.get(getIndex()).getUniqueId().toString(), ManhuntRoles.MANHUNTROLLE.name().toLowerCase()), PersistentDataType.STRING)).equalsIgnoreCase("none")) {
                     playerHeadLore.add("Manhuntrolle: " + ChatColor.BLUE + "NONE");
                 }
                 playerHeadMeta.setLore(playerHeadLore);
@@ -174,15 +159,11 @@ public class ManhuntFollowSelectMenu extends AbstractPaginatedMenu {
 
                 Inventory inventory = getInventory();
 
-                if (ManhuntPlayerRoleUtil.getManhuntRole(player).equalsIgnoreCase("speedrunner"))
-                {
-                    if (ManhuntPlayerRoleUtil.getManhuntRole(players.get(getIndex())).equalsIgnoreCase("speedrunner"))
-                    {
+                if (ManhuntPlayerRoleUtil.getManhuntRole(player).equalsIgnoreCase("speedrunner")) {
+                    if (ManhuntPlayerRoleUtil.getManhuntRole(players.get(getIndex())).equalsIgnoreCase("speedrunner")) {
                         inventory.addItem(playerHead);
                     }
-                }
-                else
-                {
+                } else {
                     inventory.addItem(playerHead);
                 }
             }

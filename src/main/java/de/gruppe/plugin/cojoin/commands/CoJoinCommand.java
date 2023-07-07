@@ -21,41 +21,33 @@ public class CoJoinCommand implements CommandExecutor {
 
         //check if the user of the command is a player
         //if not then the command won't do anything
-        if (!(sender instanceof Player))
-        {
-            if (args.length == 0)
-            {
+        if (!(sender instanceof Player)) {
+            if (args.length == 0) {
                 sender.sendMessage("You can't get this Role because you aren't a player");
                 return true;
             }
         }
 
-
         assert sender instanceof Player;
         Player senderPlayer = (Player) sender;
 
         //if you use the command without any arguments you get a list for possible arguments
-        if (args.length == 0)
-        {
+        if (args.length == 0) {
             String s = "/Cojoin ";
 
             senderPlayer.sendMessage(ChatColor.RED + "To less Arguments try: ");
-            senderPlayer.sendMessage(s + ChatColor.YELLOW + "createController " + ChatColor.AQUA + "<characktercontrollername>");
-            senderPlayer.sendMessage(s+ ChatColor.YELLOW + "getController ");
-            senderPlayer.sendMessage(s + ChatColor.YELLOW + "getRoles " + ChatColor.AQUA + "<characktercontrollername>");
-            senderPlayer.sendMessage(s+ ChatColor.YELLOW + "setRole " + ChatColor.AQUA + "<characktercontrollername> " +ChatColor.GREEN + "<roleName>");
+            senderPlayer.sendMessage(s + ChatColor.YELLOW + "createController " + ChatColor.AQUA + "<charactercontrollername>");
+            senderPlayer.sendMessage(s + ChatColor.YELLOW + "getController ");
+            senderPlayer.sendMessage(s + ChatColor.YELLOW + "getRoles " + ChatColor.AQUA + "<charactercontrollername>");
+            senderPlayer.sendMessage(s + ChatColor.YELLOW + "setRole " + ChatColor.AQUA + "<charactercontrollername> " + ChatColor.GREEN + "<roleName>");
         }
 
-
-        if (args.length == 1)
-        {
-            //The player get a message with all availabals roles
-            if (args[0].equalsIgnoreCase("getRoles"))
-            {
-                //CoJoinRole.values get a set with all availables roles
+        if (args.length == 1) {
+            //The player get a message with all available roles
+            if (args[0].equalsIgnoreCase("getRoles")) {
+                //CoJoinRole.values get a set with all available roles
                 for (CoJoinRole value : CoJoinRole.values()) {
-                    if (value == CoJoinRole.COJOINROLE)
-                    {
+                    if (value == CoJoinRole.COJOINROLE) {
                         continue;
                     }
                     senderPlayer.sendMessage(ChatColor.BLUE + value.name());
@@ -65,23 +57,20 @@ public class CoJoinCommand implements CommandExecutor {
             }
 
             //Get all created controllers
-            if (args[0].equalsIgnoreCase("getController"))
-            {
+            if (args[0].equalsIgnoreCase("getController")) {
                 senderPlayer.sendMessage("Controller Names:");
                 for (String controllerName : CoJoinControllerPlayerList.getControllerNames()) {
                     senderPlayer.sendMessage(ChatColor.GOLD + controllerName);
                 }
             }
 
-            if (args[0].equalsIgnoreCase("save"))
-            {
-                int controllerNumber =0;
+            if (args[0].equalsIgnoreCase("save")) {
+                int controllerNumber = 0;
                 for (CoJoinController controller : CoJoinControllerPlayerList.getCoJoinPlayerControllers()) {
-                    CoJoinSaveConfig.set("Controllers.Controller_Names." + ++controllerNumber, controller.getControlerName());
+                    CoJoinSaveConfig.set("Controllers.Controller_Names." + ++controllerNumber, controller.getControllerName());
 
                     File file = new File("./plugins/Saves/", "cojoinSaves.yml");
-                    if (file.exists())
-                    {
+                    if (file.exists()) {
                         file.delete();
                         try {
                             file.createNewFile();
@@ -92,13 +81,11 @@ public class CoJoinCommand implements CommandExecutor {
 
                     for (CoJoinRole value : CoJoinRole.values()) {
 
-                        if (value == CoJoinRole.COJOINROLE)
-                        {
+                        if (value == CoJoinRole.COJOINROLE) {
                             continue;
                         }
 
-                        if (controller.getPlayerInController().get(value) == null)
-                        {
+                        if (controller.getPlayerInController().get(value) == null) {
                             CoJoinSaveConfig.set("Controllers.Controller_PlayerRoles." + controllerNumber + "." + value.name() + "_" + controllerNumber, "null");
 
                             continue;
@@ -110,49 +97,35 @@ public class CoJoinCommand implements CommandExecutor {
                 System.out.println("Saved");
             }
 
-            if (args[0].equalsIgnoreCase("load"))
-            {
+            if (args[0].equalsIgnoreCase("load")) {
                 int number = 0;
 
-                while (CoJoinSaveConfig.contains("Controllers.Controller_Names." + ++number))
-                {
+                while (CoJoinSaveConfig.contains("Controllers.Controller_Names." + ++number)) {
                     String controllerName = (String) CoJoinSaveConfig.get("Controllers.Controller_Names." + number);
 
-                    if (CoJoinControllerPlayerList.getControllerFromName(controllerName) == null)
-                    {
+                    if (CoJoinControllerPlayerList.getControllerFromName(controllerName) == null) {
                         CoJoinControllerPlayerList.addPlayerController(new CoJoinController(controllerName));
                     }
 
-
-
-
-
                     for (CoJoinRole value : CoJoinRole.values()) {
 
-                        if (value == CoJoinRole.COJOINROLE)
-                        {
+                        if (value == CoJoinRole.COJOINROLE) {
                             continue;
                         }
 
-                        if (CoJoinSaveConfig.contains("Controllers.Controller_PlayerRoles." + number + "." + value.name() + "_" + number))
-                        {
+                        if (CoJoinSaveConfig.contains("Controllers.Controller_PlayerRoles." + number + "." + value.name() + "_" + number)) {
                             Object obj = CoJoinSaveConfig.get("Controllers.Controller_PlayerRoles." + number + "." + value.name() + "_" + number);
 
-                            if (obj instanceof String stingValue)
-                            {
+                            if (obj instanceof String stingValue) {
 
-                                if (stingValue.equalsIgnoreCase("null"))
-                                {
+                                if (stingValue.equalsIgnoreCase("null")) {
                                     Objects.requireNonNull(CoJoinControllerPlayerList.getControllerFromName(controllerName)).addCoJoinPlayerRole(null, value);
-                                }
-                                else
-                                {
+                                } else {
                                     Player player = Bukkit.getPlayer(stingValue);
                                     Objects.requireNonNull(CoJoinControllerPlayerList.getControllerFromName(controllerName)).addCoJoinPlayerRole(player, value);
                                 }
                             }
                         }
-
 
                     }
 
@@ -160,29 +133,22 @@ public class CoJoinCommand implements CommandExecutor {
             }
         }
 
-
-        if (args.length == 2)
-        {
+        if (args.length == 2) {
 
             //If the command is the createController
-            if (args[0].equalsIgnoreCase("createController"))
-            {
-                //Set in the Controllerlist a new generatet controller with the name in args[1]
+            if (args[0].equalsIgnoreCase("createController")) {
+                //Set in the Controller list a new generated controller with the name in args[1]
                 CoJoinControllerPlayerList.addPlayerController(new CoJoinController(args[1]));
-                senderPlayer.sendMessage(ChatColor.GREEN + "Der Character " + ChatColor.DARK_BLUE +  args[1] + ChatColor.GREEN + " wurde erstellt");
+                senderPlayer.sendMessage(ChatColor.GREEN + "Der Character " + ChatColor.DARK_BLUE + args[1] + ChatColor.GREEN + " wurde erstellt.");
                 return true;
             }
 
-
-            if (args.length == 2)
-            {
+            if (args.length == 2) {
                 //The player get all empty roles from the controller
-                if (args[0].equalsIgnoreCase("getRoles"))
-                {
+                if (args[0].equalsIgnoreCase("getRoles")) {
                     //check if the second argument is from an existing controller
                     for (String controllerName : CoJoinControllerPlayerList.getControllerNames()) {
-                        if (args[1].equalsIgnoreCase(controllerName))
-                        {
+                        if (args[1].equalsIgnoreCase(controllerName)) {
                             CoJoinController controller = CoJoinControllerPlayerList.getControllerFromName(controllerName);
 
                             senderPlayer.sendMessage(ChatColor.YELLOW + "Diese Rollen sind nicht vergeben:");
@@ -193,8 +159,7 @@ public class CoJoinCommand implements CommandExecutor {
                             }
 
                             senderPlayer.sendMessage(ChatColor.YELLOW + "Diese Rollen sind vergeben:");
-                            if (controller.getSetRoleAndPlayer() != null)
-                            {
+                            if (controller.getSetRoleAndPlayer() != null) {
                                 for (String s : controller.getSetRoleAndPlayer()) {
                                     senderPlayer.sendMessage(ChatColor.GREEN + s);
                                 }
@@ -205,34 +170,27 @@ public class CoJoinCommand implements CommandExecutor {
                     return true;
                 }
 
-
             }
         }
 
         //argument[0]: command name
         //argument[1]: controller name
         //argument[2]: role name
-        //argument[3]: opptional player who get the role if not used the sender got the role
+        //argument[3]: optional player who get the role if not used the sender got the role
         //add a player to a role from a controller
-        if (args.length == 3)
-        {
+        if (args.length == 3) {
 
-            if (args[0].equalsIgnoreCase("setRole"))
-            {
+            if (args[0].equalsIgnoreCase("setRole")) {
                 for (String controllerName : CoJoinControllerPlayerList.getControllerNames()) {
-                    if (args[1].equalsIgnoreCase(controllerName))
-                    {
+                    if (args[1].equalsIgnoreCase(controllerName)) {
                         CoJoinController controller = CoJoinControllerPlayerList.getControllerFromName(controllerName);
 
                         assert controller != null;
                         controller.addCoJoinPlayerRole(senderPlayer, CoJoinRole.valueOf(args[2].toUpperCase()));
-                        if (!controller.playerHasRole(senderPlayer, CoJoinRole.MOVEMENT_WALK) && CoJoinRole.valueOf(args[2].toUpperCase()) != CoJoinRole.MOVEMENT_WALK)
-                        {
+                        if (!controller.playerHasRole(senderPlayer, CoJoinRole.MOVEMENT_WALK) && CoJoinRole.valueOf(args[2].toUpperCase()) != CoJoinRole.MOVEMENT_WALK) {
                             senderPlayer.setCollidable(false);
                             senderPlayer.setInvulnerable(true);
-                        }
-                        else
-                        {
+                        } else {
                             senderPlayer.setCollidable(true);
                             senderPlayer.setInvulnerable(false);
                         }

@@ -5,27 +5,25 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class ManhuntPlayerRoleUtil {
 
-    public static void playerAddRole(UUID player, ManhuntRoles role)
-    {
+    public static void playerAddRole(UUID player, ManhuntRoles role) {
         //Bukkit.getPlayer(player).getPersistentDataContainer().get(new NamespacedKey(player.toString(), "Manhunt_Role"), PersistentDataType.STRING);
-        //Setzen von einem tag das angibt welche rolle ein spieler bei der manhunt hat
+        //Setzen von einem Tag das angibt welche rolle ein spieler bei der manhunt hat
         //namespaced key gibt an worunter man darauf zugreifen kann
-        //PersistentDataType gibt an was fuer ein wert gespeichert wird
+        //PersistentDataType, gibt an was fuer ein wert gespeichert wird
         //Und der dritte wert ist der gespeicherte wert
-        Bukkit.getPlayer(player).getPersistentDataContainer().set(new NamespacedKey(player.toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING, role.toString());
+        Objects.requireNonNull(Bukkit.getPlayer(player)).getPersistentDataContainer().set(new NamespacedKey(player.toString(), ManhuntRoles.MANHUNTROLLE.name().toLowerCase()), PersistentDataType.STRING, role.toString());
     }
 
-    public static String getManhuntRole(Player player)
-    {
-        return player.getPersistentDataContainer().get(new NamespacedKey(player.getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING);
+    public static String getManhuntRole(Player player) {
+        return player.getPersistentDataContainer().get(new NamespacedKey(player.getUniqueId().toString(), ManhuntRoles.MANHUNTROLLE.name().toLowerCase()), PersistentDataType.STRING);
     }
 
-    public static void changeRole(Player player, ManhuntRoles role)
-    {
-        player.getPersistentDataContainer().set(new NamespacedKey(player.getUniqueId().toString(), ManhuntRoles.MANHUNTROLE.name().toLowerCase()), PersistentDataType.STRING, role.name().toLowerCase());
+    public static void changeRole(Player player, ManhuntRoles role) {
+        player.getPersistentDataContainer().set(new NamespacedKey(player.getUniqueId().toString(), ManhuntRoles.MANHUNTROLLE.name().toLowerCase()), PersistentDataType.STRING, role.name().toLowerCase());
     }
 }

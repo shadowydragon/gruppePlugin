@@ -12,11 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
+import java.util.*;
 
 public class ManhuntMainMenu extends AbstractMenu {
     public ManhuntMainMenu(PlayerMenuUtility playerMenuUtility) {
@@ -25,7 +21,7 @@ public class ManhuntMainMenu extends AbstractMenu {
 
     @Override
     public String getMenuName() {
-        return ChatColor.RED +  "Manhunt Menu";
+        return ChatColor.RED + "Manhunt Menu";
     }
 
     @Override
@@ -36,33 +32,27 @@ public class ManhuntMainMenu extends AbstractMenu {
     @Override
     public void handleMenu(InventoryClickEvent event) {
 
-        String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
+        String displayName = Objects.requireNonNull(Objects.requireNonNull(event.getCurrentItem()).getItemMeta()).getDisplayName();
         if (displayName.equals(ChatColor.DARK_AQUA + "Close")) {
             event.getWhoClicked().closeInventory();
-        }
-        else if (displayName.equals(ChatColor.GREEN + "Locate Player")) {
+        } else if (displayName.equals(ChatColor.GREEN + "Locate Player")) {
 
-            if (event.getWhoClicked().getInventory().contains(TargetCompass.createCreate()))
-            {
+            if (event.getWhoClicked().getInventory().contains(TargetCompass.createCreate())) {
                 event.getWhoClicked().sendMessage("You already own a compass.");
                 return;
             }
             if (event.getWhoClicked().getInventory().getItem(8) == null) {
 
                 event.getWhoClicked().getInventory().setItem(8, TargetCompass.createCreate());
-            }
-            else {
+            } else {
 
                 event.getWhoClicked().getInventory().addItem(TargetCompass.createCreate());
             }
             event.getWhoClicked().sendMessage("Here you got your Compass.");
-        }else if (displayName.equalsIgnoreCase("Select follow target"))
-        {
+        } else if (displayName.equalsIgnoreCase("Select follow target")) {
             ManhuntFollowSelectMenu manhuntFollowSelectMenu = new ManhuntFollowSelectMenu(Main.getPlayerMenuUtility((Player) event.getWhoClicked()));
             manhuntFollowSelectMenu.open(((Player) event.getWhoClicked()).getPlayer());
-        }
-        else if (displayName.equalsIgnoreCase("Select Role"))
-        {
+        } else if (displayName.equalsIgnoreCase("Select Role")) {
             ManhuntRoleSelectMenu manhuntRoleSelectMenu = new ManhuntRoleSelectMenu(Main.getPlayerMenuUtility((Player) event.getWhoClicked()));
             manhuntRoleSelectMenu.open();
         }
@@ -73,34 +63,29 @@ public class ManhuntMainMenu extends AbstractMenu {
     public void setMenuItems() {
 
         ItemStack getCompass = new ItemStack(Material.COMPASS, 1);
-        ItemMeta comapassMeta = getCompass.getItemMeta();
-        comapassMeta.setUnbreakable(true);
-        comapassMeta.setDisplayName(ChatColor.GREEN + "Locate Player");
+        ItemMeta compassMeta = getCompass.getItemMeta();
+        Objects.requireNonNull(compassMeta).setUnbreakable(true);
+        compassMeta.setDisplayName(ChatColor.GREEN + "Locate Player");
         List<String> compassLore = new LinkedList<>();
         compassLore.add("Erhalte einen Compass");
-        comapassMeta.setLore(compassLore);
-        getCompass.setItemMeta(comapassMeta);
+        compassMeta.setLore(compassLore);
+        getCompass.setItemMeta(compassMeta);
 
         ItemStack close = new ItemStack(Material.BARRIER, 1);
         ItemMeta closeMeta = close.getItemMeta();
-        closeMeta.setDisplayName(ChatColor.DARK_AQUA + "Close");
-        closeMeta.setLore(new ArrayList<String>(Collections.singleton("Close the Menu")));
+        Objects.requireNonNull(closeMeta).setDisplayName(ChatColor.DARK_AQUA + "Close");
+        closeMeta.setLore(new ArrayList<>(Collections.singleton("Close the Menu")));
         close.setItemMeta(closeMeta);
-
-
-
 
         ItemStack playerTarget = new ItemStack(Material.DIAMOND_SWORD, 1);
         ItemMeta playerTargetMeta = playerTarget.getItemMeta();
-        playerTargetMeta.setDisplayName("Select follow target");
+        Objects.requireNonNull(playerTargetMeta).setDisplayName("Select follow target");
         playerTarget.setItemMeta(playerTargetMeta);
-
 
         ItemStack selectRole = new ItemStack(Material.EMERALD, 1);
         ItemMeta selectRoleMeta = selectRole.getItemMeta();
-        selectRoleMeta.setDisplayName("Select Role");
+        Objects.requireNonNull(selectRoleMeta).setDisplayName("Select Role");
         selectRole.setItemMeta(selectRoleMeta);
-
 
         Inventory inventory = this.getInventory();
         inventory.setItem(8, close);
@@ -113,34 +98,29 @@ public class ManhuntMainMenu extends AbstractMenu {
     public void setMenuItems(Player player) {
 
         ItemStack getCompass = new ItemStack(Material.COMPASS, 1);
-        ItemMeta comapassMeta = getCompass.getItemMeta();
-        comapassMeta.setUnbreakable(true);
-        comapassMeta.setDisplayName(ChatColor.GREEN + "Locate Player");
+        ItemMeta compassMeta = getCompass.getItemMeta();
+        Objects.requireNonNull(compassMeta).setUnbreakable(true);
+        compassMeta.setDisplayName(ChatColor.GREEN + "Locate Player");
         List<String> compassLore = new LinkedList<>();
         compassLore.add("Erhalte einen Compass");
-        comapassMeta.setLore(compassLore);
-        getCompass.setItemMeta(comapassMeta);
+        compassMeta.setLore(compassLore);
+        getCompass.setItemMeta(compassMeta);
 
         ItemStack close = new ItemStack(Material.BARRIER, 1);
         ItemMeta closeMeta = close.getItemMeta();
-        closeMeta.setDisplayName(ChatColor.DARK_AQUA + "Close");
-        closeMeta.setLore(new ArrayList<String>(Collections.singleton("Close the Menu")));
+        Objects.requireNonNull(closeMeta).setDisplayName(ChatColor.DARK_AQUA + "Close");
+        closeMeta.setLore(new ArrayList<>(Collections.singleton("Close the Menu")));
         close.setItemMeta(closeMeta);
-
-
-
 
         ItemStack playerTarget = new ItemStack(Material.DIAMOND_SWORD, 1);
         ItemMeta playerTargetMeta = playerTarget.getItemMeta();
-        playerTargetMeta.setDisplayName("Select follow target");
+        Objects.requireNonNull(playerTargetMeta).setDisplayName("Select follow target");
         playerTarget.setItemMeta(playerTargetMeta);
-
 
         ItemStack selectRole = new ItemStack(Material.EMERALD, 1);
         ItemMeta selectRoleMeta = selectRole.getItemMeta();
-        selectRoleMeta.setDisplayName("Select Role");
+        Objects.requireNonNull(selectRoleMeta).setDisplayName("Select Role");
         selectRole.setItemMeta(selectRoleMeta);
-
 
         Inventory inventory = this.getInventory();
         inventory.setItem(8, close);

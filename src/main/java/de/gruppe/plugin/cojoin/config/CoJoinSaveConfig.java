@@ -13,14 +13,12 @@ public class CoJoinSaveConfig {
     public CoJoinSaveConfig() {
 
         File dir = new File("./plugins/Saves/");
-        if (!dir.exists())
-        {
+        if (!dir.exists()) {
             dir.mkdirs();
         }
 
         file = new File(dir, "cojoinSaves.yml");
-        if (!file.exists())
-        {
+        if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
@@ -31,13 +29,11 @@ public class CoJoinSaveConfig {
         config = YamlConfiguration.loadConfiguration(file);
     }
 
-    public static boolean contains(String paths)
-    {
+    public static boolean contains(String paths) {
         return config.contains(paths);
     }
 
-    public static void set(String path, Object value)
-    {
+    public static void set(String path, Object value) {
         config.set(path, value);
         try {
             config.save(file);
@@ -46,14 +42,10 @@ public class CoJoinSaveConfig {
         }
     }
 
-    public static Object get(String path)
-    {
-        if (!contains(path))
-        {
+    public static Object get(String path) {
+        if (!contains(path)) {
             return null;
-        }
-        else
-        {
+        } else {
             return config.get(path);
         }
     }
