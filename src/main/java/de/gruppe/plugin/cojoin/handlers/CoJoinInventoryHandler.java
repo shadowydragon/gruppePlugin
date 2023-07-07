@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.Damageable;
@@ -72,6 +73,27 @@ public class CoJoinInventoryHandler implements Listener {
         }
 
         event.setCancelled(true);
+    }
+
+
+    @EventHandler
+    public void onBucketFill(PlayerBucketFillEvent event) {
+
+        Player player = event.getPlayer();
+
+        if (CoJoinControllerPlayerList.getControllerFromPlayer(player) == null) {
+            return;
+        }
+
+        CoJoinController controller = CoJoinControllerPlayerList.getControllerFromPlayer(player);
+
+        if (controller != null && !controller.playerHasRole(player, CoJoinRole.BREAK)) {
+            event.setCancelled(true);
+        }else {
+            Player invPlayer = Objects.requireNonNull(controller).getPlayerForRole(CoJoinRole.INVENTORY);
+            invPlayer.getInventory().setItemInMainHand(event.getItemStack());
+            updateInventories(controller);
+        }
     }
 
     @EventHandler

@@ -149,6 +149,7 @@ public class CoJoinSyncHandler implements Listener {
 
     @EventHandler
     public void onEntityPotionEffect(EntityPotionEffectEvent event) {
+        System.out.println("Potion hit");
         if (event.getEntity() instanceof Player walkPlayer) {
             //If player doesn't belong to a controller he can do it
             if (CoJoinControllerPlayerList.getControllerFromPlayer(walkPlayer) == null) {
@@ -158,7 +159,9 @@ public class CoJoinSyncHandler implements Listener {
 
             assert controller != null;
             if (controller.playerHasRole(walkPlayer, CoJoinRole.MOVEMENT_WALK)) {
+                System.out.printf("Potion remove");
                 controller.getPlayersForController(walkPlayer).forEach(player1 -> player1.getActivePotionEffects().forEach(potionEffect -> player1.removePotionEffect(potionEffect.getType())));
+                System.out.println("Potion add");
                 controller.getPlayersForController(walkPlayer).forEach(player1 -> player1.addPotionEffects(walkPlayer.getActivePotionEffects()));
             }
         }
